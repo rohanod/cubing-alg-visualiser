@@ -1,0 +1,231 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rohanod.github.io/cubing-alg-visualiser/schema/algorithm-set.schema.json",
+  "title": "Algorithm set document",
+  "description": "Portable algorithm-set document (schemaVersion 1) including dual completion. Vocabulary: CONTEXT.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "name", "categories"],
+  "properties": {
+    "schemaVersion": {
+      "description": "Format revision. Only integer 1 is valid for this schema.",
+      "const": 1
+    },
+    "id": {
+      "description": "Stable algorithm-set id for storage and re-import replace semantics.",
+      "type": "string",
+      "minLength": 1
+    },
+    "name": {
+      "description": "Human-readable set name.",
+      "type": "string",
+      "minLength": 1
+    },
+    "stage": {
+      "$ref": "#/$defs/stage"
+    },
+    "colourScheme": {
+      "$ref": "#/$defs/colourScheme"
+    },
+    "categories": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/category"
+      }
+    }
+  },
+  "$defs": {
+    "colourToken": {
+      "type": "string",
+      "enum": ["white", "yellow", "red", "orange", "blue", "green"]
+    },
+    "colourScheme": {
+      "description": "Full face map. Omit the whole property for PDF default (U yellow, D white, F blue, B green, L orange, R red).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["U", "D", "F", "B", "L", "R"],
+      "properties": {
+        "U": { "$ref": "#/$defs/colourToken" },
+        "D": { "$ref": "#/$defs/colourToken" },
+        "F": { "$ref": "#/$defs/colourToken" },
+        "B": { "$ref": "#/$defs/colourToken" },
+        "L": { "$ref": "#/$defs/colourToken" },
+        "R": { "$ref": "#/$defs/colourToken" }
+      }
+    },
+    "stage": {
+      "description": "Stage id after case-fold and alias normalisation must be a known token; unknown values are invalid. Prefer canonical lowercase ids in authored files.",
+      "type": "string",
+      "enum": [
+        "none",
+        "None",
+        "NONE",
+        "full",
+        "Full",
+        "FULL",
+        "f2l",
+        "F2L",
+        "F2l",
+        "f2L",
+        "cross",
+        "Cross",
+        "CROSS",
+        "first_layer",
+        "First_layer",
+        "FIRST_LAYER",
+        "first-layer",
+        "First-layer",
+        "FIRST-LAYER",
+        "oll",
+        "OLL",
+        "Oll",
+        "pll",
+        "PLL",
+        "Pll",
+        "ll",
+        "LL",
+        "Ll",
+        "last_layer",
+        "Last_layer",
+        "LAST_LAYER",
+        "last-layer",
+        "Last-layer",
+        "LAST-LAYER",
+        "cll",
+        "CLL",
+        "Cll",
+        "coll",
+        "COLL",
+        "Coll",
+        "ell",
+        "ELL",
+        "Ell"
+      ]
+    },
+    "mask": {
+      "description": "Optional raw face→sticker-index map. When present, overrides stage for greying. At least one face required.",
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "U": { "$ref": "#/$defs/stickerIndexList" },
+        "D": { "$ref": "#/$defs/stickerIndexList" },
+        "F": { "$ref": "#/$defs/stickerIndexList" },
+        "B": { "$ref": "#/$defs/stickerIndexList" },
+        "L": { "$ref": "#/$defs/stickerIndexList" },
+        "R": { "$ref": "#/$defs/stickerIndexList" }
+      }
+    },
+    "stickerIndexList": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "category": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "cases"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cases": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/case"
+          }
+        }
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "setup", "angles"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "setup": {
+          "description": "Moves from the set base state to this case. Must be non-empty.",
+          "type": "string",
+          "minLength": 1
+        },
+        "stage": {
+          "$ref": "#/$defs/stage"
+        },
+        "mask": {
+          "$ref": "#/$defs/mask"
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/link"
+          }
+        },
+        "angles": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/angle"
+          }
+        }
+      }
+    },
+    "link": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "url"],
+      "properties": {
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1,
+          "format": "uri"
+        }
+      }
+    },
+    "angle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "solutions"],
+      "properties": {
+        "id": {
+          "description": "Free-form angle id and display label (e.g. FR, front).",
+          "type": "string",
+          "minLength": 1
+        },
+        "solutions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "completed": {
+          "description": "0 incomplete, 1 complete. Omit on import → treat as 0. Export always writes 0 or 1.",
+          "type": "integer",
+          "enum": [0, 1]
+        }
+      }
+    }
+  }
+}
