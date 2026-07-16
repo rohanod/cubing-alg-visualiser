@@ -1,0 +1,6 @@
+/* Apps SDK UI design tokens + foundations (vendored, no Tailwind runtime). */
+@import "./base.css";
+@import "./variables-primitive.css";
+@import "./variables-semantic.css";
+@import "./variables-components.css";
+@import "./globals.css";
