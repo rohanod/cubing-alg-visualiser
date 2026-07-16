@@ -12,8 +12,12 @@
     "validate:schema": "bun run schema/validate.ts"
   },
   "dependencies": {
+    "clsx": "^2.1.1",
+    "radix-ui": "^1.6.2",
     "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "react-dom": "^19.2.7",
+    "react-merge-refs": "^3.0.2",
+    "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
     "@types/node": "^26.1.1",
