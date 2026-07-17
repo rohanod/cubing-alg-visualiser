@@ -1,33 +1,30 @@
-@layer components {.TransitionItem {
+.TransitionItem {
   will-change: var(--tg-will-change);
 
   /* Removing natural DOM position allows multiple layers to occupy the same space without stacking */
-
-  /* Interruptions should not experience delay */
-}
-  [data-transition-position="absolute"] .TransitionItem[data-exiting],
-  
-  [data-transition-position="absolute"] .TransitionItem:not([data-exiting]) + .TransitionItem[data-entering] {
+  [data-transition-position="absolute"] &[data-exiting],
+  /* This should never occur, but is technically a fix for if TransitionGroup gets rendering wrong for a single paint as a new item enters */
+  [data-transition-position="absolute"] .TransitionItem:not([data-exiting]) + &[data-entering] {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
   }
 
-  .TransitionItem[data-entering] {
+  &[data-entering] {
     filter: var(--tg-initial-filter);
     opacity: var(--tg-initial-opacity);
     transform: var(--tg-initial-transform);
   }
 
-  .TransitionItem[data-exiting] {
+  &[data-exiting] {
     filter: var(--tg-enter-filter);
     opacity: var(--tg-enter-opacity);
     transform: var(--tg-enter-transform);
   }
 
-  .TransitionItem[data-entering-active],
-  .TransitionItem[data-entering][data-interrupted] {
+  &[data-entering-active],
+  &[data-entering][data-interrupted] {
     filter: var(--tg-enter-filter);
     opacity: var(--tg-enter-opacity);
     transform: var(--tg-enter-transform);
@@ -37,8 +34,8 @@
       filter var(--tg-enter-duration) var(--tg-enter-timing-function) var(--tg-enter-delay);
   }
 
-  .TransitionItem[data-exiting-active],
-  .TransitionItem[data-exiting][data-interrupted] {
+  &[data-exiting-active],
+  &[data-exiting][data-interrupted] {
     filter: var(--tg-exit-filter, none);
     opacity: var(--tg-exit-opacity, 0);
     transform: var(--tg-exit-transform, none);
@@ -47,8 +44,10 @@
       transform var(--tg-exit-duration) var(--tg-exit-timing-function) var(--tg-exit-delay),
       filter var(--tg-exit-duration) var(--tg-exit-timing-function) var(--tg-exit-delay);
   }
-  .TransitionItem[data-entering][data-interrupted],
-  .TransitionItem[data-exiting][data-interrupted] {
+
+  /* Interruptions should not experience delay */
+  &[data-entering][data-interrupted],
+  &[data-exiting][data-interrupted] {
     transition-delay: 0ms;
   }
 }

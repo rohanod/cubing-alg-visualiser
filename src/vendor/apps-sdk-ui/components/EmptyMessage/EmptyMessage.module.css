@@ -1,19 +1,22 @@
-@layer components {.EmptyMessage {
+@layer components {
+.EmptyMessage {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
 
-  .EmptyMessage[data-fill="static"] {
+  &[data-fill="static"] {
     width: 100%;
     height: 100%;
   }
 
-  .EmptyMessage[data-fill="absolute"] {
+  &[data-fill="absolute"] {
     position: absolute;
     inset: 0;
-  }.IconBadge {
+  }
+}
+
+.IconBadge {
   --badge-size: 40px;
   --icon-size: 24px;
 
@@ -26,47 +29,51 @@
   margin: 0 0 12px;
   background: var(--badge-background-color);
   color: var(--badge-text-color);
-}
 
-  .IconBadge svg {
+  svg {
     width: var(--icon-size);
     height: var(--icon-size);
   }
 
-  .IconBadge[data-size="sm"] {
+  &[data-size="sm"] {
     --badge-size: 32px;
     --icon-size: 20px;
   }
 
-  .IconBadge[data-color="secondary"] {
+  &[data-color="secondary"] {
     --badge-background-color: var(--color-background-secondary-soft);
     --badge-text-color: var(--color-text-secondary-soft);
   }
 
-  .IconBadge[data-color="warning"] {
+  &[data-color="warning"] {
     --badge-background-color: var(--color-background-warning-soft);
     --badge-text-color: var(--color-text-warning-soft);
   }
 
-  .IconBadge[data-color="danger"] {
+  &[data-color="danger"] {
     --badge-background-color: var(--color-background-danger-soft);
     --badge-text-color: var(--color-text-danger-soft);
-  }.Title {
+  }
+}
+
+.Title {
   max-width: 90%;
   color: var(--color-text);
   font-size: 16px;
   font-weight: var(--font-weight-semibold);
   text-align: center;
   text-wrap: balance;
-}
 
-  .Title:where([data-color="danger"]) {
+  &:where([data-color="danger"]) {
     color: var(--color-text-danger);
   }
 
-  .Title:where([data-color="warning"]) {
+  &:where([data-color="warning"]) {
     color: var(--color-text-warning);
-  }.Description {
+  }
+}
+
+.Description {
   max-width: 90%;
   margin: 6px 0 0;
   color: var(--color-text-secondary);
@@ -74,7 +81,10 @@
   line-height: 1.45;
   text-align: center;
   text-wrap: balance;
-}.ActionRow {
+}
+
+.ActionRow {
   margin-top: calc(var(--spacing) * 4);
 }
+
 }

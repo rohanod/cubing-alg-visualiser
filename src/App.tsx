@@ -9,7 +9,7 @@ import { Alert } from "./vendor/apps-sdk-ui/components/Alert";
 import { Badge } from "./vendor/apps-sdk-ui/components/Badge";
 import { Button } from "./vendor/apps-sdk-ui/components/Button";
 import { EmptyMessage } from "./vendor/apps-sdk-ui/components/EmptyMessage";
-import { Archive } from "./vendor/apps-sdk-ui/components/Icon";
+import { Archive, FolderPlus } from "./vendor/apps-sdk-ui/components/Icon";
 import { Textarea } from "./vendor/apps-sdk-ui/components/Textarea";
 
 function caseCount(doc: AlgorithmSetDocument): number {
@@ -77,8 +77,7 @@ export default function App() {
     e.stopPropagation();
     dragDepth.current = 0;
     setDragging(false);
-    const file = e.dataTransfer.files?.[0];
-    void ingestFile(file);
+    void ingestFile(e.dataTransfer.files?.[0]);
   };
 
   return (
@@ -97,13 +96,23 @@ export default function App() {
 
       <main className="app-main">
         {document ? (
-          <ActiveSetSummary
-            document={document}
-            onClear={() => {
+          <section className="active-set" aria-live="polite">
+            <h2 className="active-set-name">{document.name}</h2>
+            <p className="active-set-meta">
+              <code>{document.id}</code>
+              {document.stage ? ` · stage ${document.stage}` : null}
+            </p>
+            <p className="active-set-stats">
+              {document.categories.length} categories · {caseCount(document)} cases
+            </p>
+            {/* Story pattern: soft secondary action */}
+            <Button color="secondary" variant="soft" onClick={() => {
               setDocument(null);
               setErrors(null);
-            }}
-          />
+            }}>
+              Clear set
+            </Button>
+          </section>
         ) : (
           <section
             className={`import-panel${dragging ? " import-panel--dragging" : ""}`}
@@ -113,8 +122,9 @@ export default function App() {
             onDrop={onDrop}
             aria-label="Import algorithm set"
           >
+            {/* Exact EmptyMessage + Button composition from apps-sdk-ui stories */}
             <EmptyMessage>
-              <EmptyMessage.Icon color="secondary">
+              <EmptyMessage.Icon>
                 <Archive />
               </EmptyMessage.Icon>
               <EmptyMessage.Title>No algorithm set loaded</EmptyMessage.Title>
@@ -124,11 +134,11 @@ export default function App() {
               <EmptyMessage.ActionRow>
                 <Button
                   color="primary"
-                  variant="soft"
                   size="lg"
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                 >
+                  <FolderPlus />
                   Choose JSON file
                 </Button>
               </EmptyMessage.ActionRow>
@@ -145,37 +155,28 @@ export default function App() {
               }}
             />
 
-            <p className="import-drop-hint" aria-hidden={dragging ? undefined : true}>
-              {dragging ? "Drop JSON to load" : "Or drag and drop a .json file onto this panel"}
-            </p>
-
-            <label className="import-editor-label" htmlFor="import-json">
-              Algorithm set JSON
-            </label>
             <Textarea
               id="import-json"
-              className="import-textarea"
               value={jsonText}
               onChange={(e) => setJsonText(e.target.value)}
               rows={12}
               spellCheck={false}
               invalid={Boolean(errors?.length)}
               placeholder='{"schemaVersion": 1, "id": "…", "name": "…", "categories": […]}'
+              aria-label="Algorithm set JSON"
               aria-describedby={errors?.length ? "import-errors" : undefined}
             />
 
-            <div className="import-actions">
-              <Button
-                color="primary"
-                variant="solid"
-                size="lg"
-                type="button"
-                disabled={jsonText.trim().length === 0}
-                onClick={() => tryLoad(jsonText)}
-              >
-                Load set
-              </Button>
-            </div>
+            <Button
+              color="primary"
+              size="lg"
+              type="button"
+              block
+              disabled={jsonText.trim().length === 0}
+              onClick={() => tryLoad(jsonText)}
+            >
+              Load set
+            </Button>
 
             {errors && errors.length > 0 ? (
               <Alert
@@ -195,40 +196,5 @@ export default function App() {
         )}
       </main>
     </div>
-  );
-}
-
-/** Temporary stand-in until browse layout (#13). Proves a set is active. */
-function ActiveSetSummary({
-  document,
-  onClear,
-}: {
-  document: AlgorithmSetDocument;
-  onClear: () => void;
-}) {
-  const cases = caseCount(document);
-  const categories = document.categories.length;
-
-  return (
-    <section className="active-set" aria-live="polite">
-      <h2 className="active-set-name">{document.name}</h2>
-      <p className="active-set-meta">
-        <code>{document.id}</code>
-        {document.stage ? (
-          <>
-            {" · "}
-            <span>stage {document.stage}</span>
-          </>
-        ) : null}
-      </p>
-      <p className="active-set-stats">
-        {categories} {categories === 1 ? "category" : "categories"} · {cases}{" "}
-        {cases === 1 ? "case" : "cases"}
-      </p>
-      {/* ponytail: clear only — replace/browse UI lands in #13 */}
-      <Button color="secondary" variant="outline" size="md" type="button" onClick={onClear}>
-        Clear set
-      </Button>
-    </section>
   );
 }

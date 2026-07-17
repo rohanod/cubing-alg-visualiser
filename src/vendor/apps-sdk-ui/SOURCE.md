@@ -6,7 +6,17 @@
 - License: MIT (see LICENSE)
 - Vendored as source under app control — not an npm dependency on `@openai/apps-sdk-ui`.
 
-CSS under `styles/` and `**/*.module.css` is the PostCSS-processed form from the
-upstream build (mixins/`spacing()` expanded, `light-dark()` expanded to
-`[data-theme]` selectors). `@theme static` blocks were rewritten to plain
-`:root` custom properties so this app does not need Tailwind at runtime.
+## Components
+
+Full `src/components/` tree (stories/mdx/tests stripped). Refresh via:
+
+```bash
+cp -R ~/.explore/repos/openai__apps-sdk-ui/src/components/* src/vendor/apps-sdk-ui/components/
+# strip stories/docs, re-expand mixins in *.module.css
+```
+
+## CSS
+
+- `styles/`: PostCSS-processed foundations (tokens as `:root`, no Tailwind required).
+- Component `*.module.css`: source-level nesting kept; `@mixin` / `spacing()` expanded locally so Vite can ship without the upstream PostCSS plugin pack.
+- `lib/dateUtils.ts` omitted (luxon).

@@ -1,4 +1,3 @@
-@layer components {.TransitionGroupChild {
+.TransitionGroupChild {
   display: block;
-}
 }

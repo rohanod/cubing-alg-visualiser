@@ -25,5 +25,14 @@
     "noUncheckedSideEffectImports": true
   },
   "include": ["src"],
-  "exclude": ["src/**/*.test.ts"]
+  "exclude": [
+    "src/**/*.test.ts",
+    // Heavy upstream components not used by this app (extra peer deps).
+    "src/vendor/apps-sdk-ui/components/CodeBlock/**",
+    "src/vendor/apps-sdk-ui/components/DatePicker/**",
+    "src/vendor/apps-sdk-ui/components/DateRangePicker/**",
+    "src/vendor/apps-sdk-ui/components/Markdown/**",
+    "src/vendor/apps-sdk-ui/components/Slider/**",
+    "src/vendor/apps-sdk-ui/lib/dateUtils.ts"
+  ]
 }

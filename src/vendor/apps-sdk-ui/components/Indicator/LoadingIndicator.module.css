@@ -1,23 +1,21 @@
-@layer components {.LoadingIndicator {
+.LoadingIndicator {
   position: relative;
   width: var(--indicator-size, 1em);
   height: var(--indicator-size, 1em);
   animation: rotate var(--indicator-rotate-duration, 0.8s) linear infinite;
   transition: opacity 0.15s ease;
-}
 
-  .LoadingIndicator::before {
+  &::before {
     position: absolute;
     inset: 0;
     display: block;
     border: var(--indicator-stroke, 2px) solid var(--indicator-color, currentcolor);
     border-radius: 50%;
     content: "";
-    -webkit-mask-image: conic-gradient(rgb(0 0 0 / 0%), rgb(0 0 0));
-            mask-image: conic-gradient(rgb(0 0 0 / 0%), rgb(0 0 0));
+    mask-image: conic-gradient(rgb(0 0 0 / 0%), rgb(0 0 0));
   }
 
-  .LoadingIndicator::after {
+  &::after {
     position: absolute;
     top: 0;
     left: 50%;
@@ -28,7 +26,10 @@
     margin-left: calc(var(--indicator-stroke, 2px) * -1 / 2);
     background-color: var(--indicator-color, currentcolor);
     content: "";
-  }@keyframes rotate {
+  }
+}
+
+@keyframes rotate {
   0% {
     transform: rotate(0deg);
   }
@@ -36,5 +37,4 @@
   100% {
     transform: rotate(1turn);
   }
-}
 }

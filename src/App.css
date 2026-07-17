@@ -45,25 +45,17 @@
   min-height: 0;
 }
 
-/* ── empty-state import ─────────────────────────────────────────── */
-
 .import-panel {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: calc(var(--spacing) * 4);
-  padding: calc(var(--spacing) * 5);
-  border: 1px dashed var(--color-border-primary-outline);
-  border-radius: var(--radius-lg, 12px);
-  background: var(--color-background-primary-soft, transparent);
-  transition:
-    border-color 120ms ease,
-    background-color 120ms ease;
 }
 
 .import-panel--dragging {
-  border-color: var(--color-border-info-outline, var(--color-border-primary-outline));
-  background: var(--color-background-info-soft, var(--color-background-primary-soft));
+  outline: 2px solid var(--color-border-info-outline);
+  outline-offset: 4px;
+  border-radius: var(--radius-lg);
 }
 
 .import-file-input {
@@ -78,34 +70,6 @@
   border: 0;
 }
 
-.import-drop-hint {
-  margin: 0;
-  text-align: center;
-  color: var(--color-text-secondary);
-  font-size: var(--font-text-sm-size, 0.875rem);
-}
-
-.import-editor-label {
-  font-size: var(--font-text-sm-size, 0.875rem);
-  font-weight: var(--font-weight-medium, 500);
-  color: var(--color-text-secondary);
-}
-
-.import-textarea {
-  width: 100%;
-}
-
-.import-textarea textarea {
-  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
-  font-size: var(--font-text-sm-size, 0.875rem);
-  min-height: 12rem;
-}
-
-.import-actions {
-  display: flex;
-  justify-content: flex-end;
-}
-
 .import-error-list {
   margin: 0;
   padding-left: 1.25rem;
@@ -116,17 +80,12 @@
   margin-top: 0.25rem;
 }
 
-/* ── active set (placeholder until browse #13) ──────────────────── */
-
 .active-set {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: calc(var(--spacing) * 3);
-  padding: calc(var(--spacing) * 5);
-  border: 1px solid var(--color-border-primary-outline);
-  border-radius: var(--radius-lg, 12px);
 }
 
 .active-set-name {
