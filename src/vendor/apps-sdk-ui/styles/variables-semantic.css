@@ -1,7 +1,7 @@
 /* stylelint-disable custom-property-pattern -- Tailwind requires this sometimes */
 
 /* Always generate these variables, but they are also available to Tailwind */
-:root {
+@theme static {
   /* =============================================
     Breakpoints - configured in postcss.config
   ============================================= */
@@ -24,6 +24,7 @@
   /* =============================================
     Font weights
   ============================================= */
+  --font-weight-*: initial;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
@@ -32,6 +33,7 @@
   /* =============================================
     Radius
   ============================================= */
+  --radius-*: initial;
   --radius-2xs: 0.125rem; /* 2px */
   --radius-xs: 0.25rem; /* 4px */
   --radius-sm: 0.375rem; /* 6px */

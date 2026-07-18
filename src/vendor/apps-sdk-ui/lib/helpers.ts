@@ -1,4 +1,4 @@
-import { type CSSProperties, type MouseEvent as ReactMouseEvent } from "react"
+import { type CSSProperties } from "react"
 import { canUseDOM, hasDocument, hasWindow } from "./environment"
 import type { Pretty } from "./utilityTypes"
 
@@ -10,7 +10,7 @@ export const prefersReducedMotion = () => {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches
 }
 
-export const handlePressableMouseEnter = (evt: ReactMouseEvent) => {
+export const handlePressableMouseEnter = (evt: React.MouseEvent) => {
   const target = evt.currentTarget
 
   // Safely coerce type to HTMLElement so TS is peaceful with `evt.target`

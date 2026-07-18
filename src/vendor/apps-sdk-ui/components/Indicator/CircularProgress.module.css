@@ -10,7 +10,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  stroke: var(--circular-progress-track-color, #deede9);
+  stroke: var(--circular-progress-track-color, light-dark(#deede9, var(--green-a50)));
   transition: stroke 0.15s ease;
 }.TrackProgress {
   position: absolute;
