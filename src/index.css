@@ -1,22 +1,5 @@
-/* Vendored Apps SDK UI tokens + foundations (system light/dark via data-theme). */
+/* Apps SDK UI Installation setup (embedded vendor copy, not node_modules). */
+@import "tailwindcss";
 @import "./vendor/apps-sdk-ui/styles/index.css";
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100svh;
-  font-family: var(--font-sans);
-  background-color: var(--color-surface);
-  color: var(--color-text);
-}
-
-#root {
-  min-height: 100svh;
-}
+/* Required for Tailwind to find class references in Apps SDK UI components. */
+@source "./vendor/apps-sdk-ui";

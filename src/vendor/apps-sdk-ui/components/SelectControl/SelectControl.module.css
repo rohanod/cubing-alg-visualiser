@@ -1,5 +1,4 @@
-@layer components {
-.SelectControl {
+@layer components {.SelectControl {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -17,19 +16,22 @@
   transition-duration: var(--transition-duration-basic);
   transition-property: color;
   transition-timing-function: var(--transition-ease-basic);
-  user-select: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
   white-space: nowrap;
+}
 
-  &:where([data-optically-align="start"]) {
+  .SelectControl:where([data-optically-align="start"]) {
     margin-inline-start: calc(var(--select-control-gutter) * -1);
   }
 
-  &:where([data-optically-align="end"]) {
+  .SelectControl:where([data-optically-align="end"]) {
     margin-inline-end: calc(var(--select-control-gutter) * -1);
   }
 
   /* Background / shape of the button */
-  &::before {
+  .SelectControl::before {
     position: absolute;
     inset: 0;
     display: block;
@@ -43,7 +45,7 @@
   }
 
   /* Focus ring */
-  &::after {
+  .SelectControl::after {
     position: absolute;
     inset: 0;
     display: block;
@@ -57,21 +59,18 @@
     will-change: transform;
   }
 
-  &:focus {
+  .SelectControl:focus {
     outline: none;
   }
-
-  &:focus-visible {
-    &::after {
+    .SelectControl:focus-visible::after {
       outline: 2px solid var(--button-ring-color, var(--color-ring));
       outline-offset: var(--select-control-ring-offset, 2px);
     }
-  }
 
   /* =============================================
     Sizes
   ============================================= */
-  &:where([data-size="3xs"]) {
+  .SelectControl:where([data-size="3xs"]) {
     --select-control-size: var(--control-size-3xs);
     --select-control-gutter: var(--control-gutter-2xs);
     --select-control-font-size: var(--control-font-size-sm);
@@ -96,7 +95,7 @@
     --indicator-wrapper-gutter: 0;
   }
 
-  &:where([data-size="2xs"]) {
+  .SelectControl:where([data-size="2xs"]) {
     --select-control-size: var(--control-size-2xs);
     --select-control-gutter: var(--control-gutter-xs);
     --select-control-font-size: var(--control-font-size-sm);
@@ -121,7 +120,7 @@
     --indicator-wrapper-gutter: 0;
   }
 
-  &:where([data-size="xs"]) {
+  .SelectControl:where([data-size="xs"]) {
     --select-control-size: var(--control-size-xs);
     --select-control-gutter: var(--control-gutter-xs);
     --select-control-font-size: var(--control-font-size-md);
@@ -146,7 +145,7 @@
     --indicator-wrapper-gutter: 0;
   }
 
-  &:where([data-size="sm"]) {
+  .SelectControl:where([data-size="sm"]) {
     --select-control-size: var(--control-size-sm);
     --select-control-gutter: var(--control-gutter-sm);
     --select-control-font-size: var(--control-font-size-md);
@@ -171,7 +170,7 @@
     --indicator-wrapper-gutter: 0;
   }
 
-  &:where([data-size="md"]) {
+  .SelectControl:where([data-size="md"]) {
     --select-control-size: var(--control-size-md);
     --select-control-gutter: var(--control-gutter-md);
     --select-control-font-size: var(--control-font-size-md);
@@ -196,7 +195,7 @@
     --indicator-wrapper-gutter: calc(var(--spacing) * 0);
   }
 
-  &:where([data-size="lg"]) {
+  .SelectControl:where([data-size="lg"]) {
     --select-control-size: var(--control-size-lg);
     --select-control-gutter: var(--control-gutter-md);
     --select-control-font-size: var(--control-font-size-md);
@@ -221,7 +220,7 @@
     --indicator-wrapper-gutter: calc(var(--spacing) * 0);
   }
 
-  &:where([data-size="xl"]) {
+  .SelectControl:where([data-size="xl"]) {
     --select-control-size: var(--control-size-xl);
     --select-control-gutter: var(--control-gutter-lg);
     --select-control-font-size: var(--control-font-size-md);
@@ -246,7 +245,7 @@
     --indicator-wrapper-gutter: calc(var(--spacing) * 0.5);
   }
 
-  &:where([data-size="2xl"]) {
+  .SelectControl:where([data-size="2xl"]) {
     --select-control-size: var(--control-size-2xl);
     --select-control-gutter: var(--control-gutter-lg);
     --select-control-font-size: var(--control-font-size-lg);
@@ -271,7 +270,7 @@
     --indicator-wrapper-gutter: calc(var(--spacing) * 1);
   }
 
-  &:where([data-size="3xl"]) {
+  .SelectControl:where([data-size="3xl"]) {
     --select-control-size: var(--control-size-3xl);
     --select-control-gutter: var(--control-gutter-xl);
     --select-control-font-size: var(--control-font-size-lg);
@@ -299,7 +298,7 @@
   /* =============================================
     Pill
   ============================================= */
-  &:where([data-pill]) {
+  .SelectControl:where([data-pill]) {
     --select-control-radius: var(--radius-full);
 
     padding: 0 calc(var(--select-control-gutter) * var(--control-gutter-pill-scaling));
@@ -308,56 +307,44 @@
   /* =============================================
     Block
   ============================================= */
-  &:where([data-block]) {
+  .SelectControl:where([data-block]) {
     width: 100%;
   }
 
   /* =============================================
     Ghost variant
   ============================================= */
-  &[data-variant="ghost"] {
+  .SelectControl[data-variant="ghost"] {
     --select-control-background-color: var(--color-background-primary-ghost-hover);
     --select-control-ring-offset: -1px;
+  }
 
-    &::before {
+    .SelectControl[data-variant="ghost"]::before {
       background-color: var(--select-control-background-color);
       opacity: 0;
       transform: scale(var(--scale));
     }
-
-    &[aria-expanded="true"],
-    &[data-state="open"] {
-      &::before {
+      .SelectControl[data-variant="ghost"][aria-expanded="true"]::before, .SelectControl[data-variant="ghost"][data-state="open"]::before {
         opacity: 0.6;
         transform: scale(1);
       }
-    }
-
-    &:where(:not([data-disabled])) {
-      @media (hover: hover) and (pointer: fine) { &:hover { 
-        &::before {
+      @media (hover: hover) and (pointer: fine) {
+        .SelectControl[data-variant="ghost"]:where(:not([data-disabled])):hover::before {
           opacity: 1;
           transform: scale(1);
         }
-       } }
-
-      &:not(:has(button:active)) {
-        &:active {
-          &::before {
+}
+          .SelectControl[data-variant="ghost"]:where(:not([data-disabled])):not(:has(button:active)):active::before {
             --select-control-background-color: var(--color-background-primary-ghost-active);
 
             opacity: 1;
             transform: scale(var(--scale));
           }
 
-          &::after {
+          .SelectControl[data-variant="ghost"]:where(:not([data-disabled])):not(:has(button:active)):active::after {
             transform: scale(var(--scale));
           }
-        }
-      }
-
-      &[data-invalid] {
-        &::before {
+        .SelectControl[data-variant="ghost"]:where(:not([data-disabled]))[data-invalid]::before {
           --select-control-background-color: transparent;
 
           box-shadow: 0 0 0 1px var(--input-border-color-invalid) inset;
@@ -365,147 +352,120 @@
           transform: scale(1);
         }
 
-        @media (hover: hover) and (pointer: fine) { &:hover { 
-          &::before {
+        @media (hover: hover) and (pointer: fine) {
+          .SelectControl[data-variant="ghost"]:where(:not([data-disabled]))[data-invalid]:hover::before {
             --select-control-background-color: var(--color-background-primary-ghost-hover);
           }
-         } }
-      }
-    }
-  }
+}
 
   /* =============================================
     Soft variant
   ============================================= */
-  &[data-variant="soft"] {
+  .SelectControl[data-variant="soft"] {
     --select-control-background-color: var(--color-background-primary-soft-alpha);
+  }
 
-    &::before {
+    .SelectControl[data-variant="soft"]::before {
       background-color: var(--select-control-background-color);
     }
-
-    &[aria-expanded="true"],
-    &[data-state="open"] {
-      &::before {
+      .SelectControl[data-variant="soft"][aria-expanded="true"]::before, .SelectControl[data-variant="soft"][data-state="open"]::before {
         --select-control-background-color: var(--color-background-primary-soft-alpha-hover);
       }
-    }
-
-    &:where(:not([data-disabled])) {
-      @media (hover: hover) and (pointer: fine) { &:hover { 
-        &::before {
+      @media (hover: hover) and (pointer: fine) {
+        .SelectControl[data-variant="soft"]:where(:not([data-disabled])):hover::before {
           --select-control-background-color: var(--color-background-primary-soft-alpha-hover);
         }
-       } }
-
-      &:not(:has(button:active)) {
-        &:active {
-          &::before {
+}
+          .SelectControl[data-variant="soft"]:where(:not([data-disabled])):not(:has(button:active)):active::before {
             --select-control-background-color: var(--color-background-primary-soft-alpha-active);
           }
 
-          &::before,
-          &::after {
+          .SelectControl[data-variant="soft"]:where(:not([data-disabled])):not(:has(button:active)):active::before,
+          .SelectControl[data-variant="soft"]:where(:not([data-disabled])):not(:has(button:active)):active::after {
             transform: scale(var(--scale));
           }
-        }
-      }
 
-      &[data-invalid]::before {
+      .SelectControl[data-variant="soft"]:where(:not([data-disabled]))[data-invalid]::before {
         box-shadow: 0 0 0 1px var(--input-border-color-invalid) inset;
       }
-    }
-  }
 
   /* =============================================
     Outline variant
   ============================================= */
-  &[data-variant="outline"] {
+  .SelectControl[data-variant="outline"] {
     --select-control-border-color: var(--input-outline-border-color);
     --select-control-ring-offset: -1px;
+  }
 
-    &::before {
+    .SelectControl[data-variant="outline"]::before {
       background-color: transparent;
       box-shadow: 0 0 0 1px var(--select-control-border-color) inset;
     }
 
-    &[aria-expanded="true"],
-    &[data-state="open"] {
+    .SelectControl[data-variant="outline"][aria-expanded="true"],
+    .SelectControl[data-variant="outline"][data-state="open"] {
       --select-control-border-color: var(--input-outline-border-color-hover);
     }
-
-    &:where(:not([data-disabled])) {
-      @media (hover: hover) and (pointer: fine) { &:hover { 
+      @media (hover: hover) and (pointer: fine) {.SelectControl[data-variant="outline"]:where(:not([data-disabled])):hover {
         --select-control-border-color: var(--input-outline-border-color-hover);
-       } }
-
-      &:not(:has(button:active)) {
-        &:active {
-          &::before {
+}
+}
+          .SelectControl[data-variant="outline"]:where(:not([data-disabled])):not(:has(button:active)):active::before {
             transform: scale(var(--scale));
           }
 
-          &::after {
+          .SelectControl[data-variant="outline"]:where(:not([data-disabled])):not(:has(button:active)):active::after {
             transform: scale(var(--scale));
           }
-        }
-      }
 
-      &[data-invalid]::before {
+      .SelectControl[data-variant="outline"]:where(:not([data-disabled]))[data-invalid]::before {
         --select-control-border-color: var(--input-border-color-invalid);
       }
-    }
-  }
 
   /* =============================================
     Invalid
   ============================================= */
-  &:where([data-invalid]) {
+  .SelectControl:where([data-invalid]) {
     --button-ring-color: var(--color-ring-danger);
   }
 
   /* =============================================
     Hover
   ============================================= */
-  &:not([data-disabled]) {
-    @media (hover: hover) and (pointer: fine) { &:hover { 
-      .Clear,
-      .DropdownIcon {
+    @media (hover: hover) and (pointer: fine) {
+      .SelectControl:not([data-disabled]):hover .Clear,
+      .SelectControl:not([data-disabled]):hover .DropdownIcon {
         opacity: 1;
       }
-     } }
-  }
+}
 
   /* =============================================
     Placeholder (e.g., "not `selected`")
   ============================================= */
-  &[data-selected="false"] {
+  .SelectControl[data-selected="false"] {
     color: var(--input-placeholder-text-color);
   }
 
   /* =============================================
     Disabled
   ============================================= */
-  &[data-disabled][data-variant] {
+  .SelectControl[data-disabled][data-variant] {
     /* Matches disabled styling of Buttons, which is nice. */
     --select-control-background-color: var(--color-background-disabled);
     --select-control-border-color: var(--color-border-disabled);
 
     color: var(--color-text-disabled);
     cursor: not-allowed;
+  }
 
-    .DropdownIcon {
+    .SelectControl[data-disabled][data-variant] .DropdownIcon {
       color: var(--color-text-disabled);
     }
 
     /* Don't press while disabled */
-    &:active::before {
+    .SelectControl[data-disabled][data-variant]:active::before {
       transform: scale(1);
-    }
-  }
-}
-
-.TriggerText {
+    }.TriggerText {
   position: relative;
   overflow: hidden;
   flex: 1;
@@ -513,54 +473,46 @@
   color: inherit;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.IndicatorWrapper {
+}.IndicatorWrapper {
   position: relative;
   display: flex;
   align-items: center;
   gap: var(--indicator-wrapper-gap);
   padding-left: var(--indicator-wrapper-gutter);
-}
-
-.StartIcon {
+}.StartIcon {
   position: relative;
   width: var(--start-icon-size);
   height: var(--start-icon-size);
   margin-left: var(--start-icon-offset);
-
-  :where(.SelectControl[data-pill]) & {
-    margin-left: var(--start-icon-pill-offset);
-  }
 }
 
-.Clear {
+  :where(.SelectControl[data-pill]) .StartIcon {
+    margin-left: var(--start-icon-pill-offset);
+  }.Clear {
   --button-size: var(--clear-size);
   --button-icon-size: var(--clear-icon-size);
 
   position: relative;
   opacity: 0.75;
+}
 
-  &[data-variant="solid"] {
+  .Clear[data-variant="solid"] {
     --button-size: var(--clear-iso-size);
     --button-icon-size: var(--clear-iso-icon-size);
   }
 
-  [data-state="open"] &,
-  &:focus-visible {
+  [data-state="open"] .Clear,
+  .Clear:focus-visible {
     opacity: 1;
   }
 
-  &[data-only-child] {
+  .Clear[data-only-child] {
     margin-right: var(--clear-iso-offset);
-
-    :where(.SelectControl[data-pill]) & {
-      margin-right: var(--clear-iso-pill-offset);
-    }
   }
-}
 
-.DropdownIcon {
+    :where(.SelectControl[data-pill]) .Clear[data-only-child] {
+      margin-right: var(--clear-iso-pill-offset);
+    }.DropdownIcon {
   position: relative;
   width: var(--dropdown-icon-width, 8px);
   height: var(--dropdown-icon-height, 12px);
@@ -571,28 +523,22 @@
   transition-property: opacity;
   transition-timing-function: var(--transition-ease-basic);
   will-change: opacity;
+}
 
-  :where(.SelectControl[data-pill]) & {
+  :where(.SelectControl[data-pill]) .DropdownIcon {
     margin-right: var(--dropdown-icon-pill-offset);
   }
 
-  [data-state="open"] & {
+  [data-state="open"] .DropdownIcon {
     opacity: 1;
-  }
-}
-
-.DropdownIconChevron {
+  }.DropdownIconChevron {
   width: var(--dropdown-chevron-icon-width, 11px);
   height: var(--dropdown-chevron-icon-height, 6px);
+}/* Shares margin offset with dropdown indicator */.LoadingIndicator {
+  margin-right: var(--dropdown-icon-offset);
 }
 
-/* Shares margin offset with dropdown indicator */
-.LoadingIndicator {
-  margin-right: var(--dropdown-icon-offset);
-
-  :where(.SelectControl[data-pill]) & {
+  :where(.SelectControl[data-pill]) .LoadingIndicator {
     margin-right: var(--dropdown-icon-pill-offset);
   }
-}
-
 }

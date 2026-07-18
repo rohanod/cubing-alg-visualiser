@@ -1,20 +1,19 @@
-@layer components {
-.Container {
+@layer components {.Container {
   display: flex;
   font-size: var(--font-text-sm-size);
   line-height: var(--font-text-sm-line-height);
-  user-select: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
 
-  &[data-has-label] {
+  .Container[data-has-label] {
     align-items: flex-start;
   }
 
-  &[data-label-position="start"] {
+  .Container[data-label-position="start"] {
     flex-direction: row-reverse;
-  }
-}
-
-.Track {
+  }.Track {
   position: relative;
   flex-shrink: 0;
   width: var(--switch-track-width);
@@ -25,40 +24,36 @@
   background: var(--switch-track-color);
   cursor: pointer;
   transition: background-color 250ms var(--cubic-move);
-
-  &:where(:not([data-disabled], [data-state="checked"])) {
-    @media (hover: hover) and (pointer: fine) { &:hover { 
+}
+    @media (hover: hover) and (pointer: fine) {.Track:where(:not([data-disabled], [data-state="checked"])):hover {
       background: var(--switch-track-color-hover);
-     } }
-  }
+}
+}
 
-  [data-has-label] & {
+  [data-has-label] .Track {
     /*
      * Vertical alignment adjusting when necessary. Avoid using align-items: center; for long wrapping labels.
      */
     top: var(--switch-track-top-offset, 1px);
   }
 
-  &:focus-visible {
+  .Track:focus-visible {
     outline: 2px solid var(--color-ring);
     outline-offset: 2px;
   }
 
-  &[data-state="checked"] {
+  .Track[data-state="checked"] {
     background: var(--switch-track-color-checked);
   }
 
-  &[data-disabled] {
+  .Track[data-disabled] {
     background: var(--switch-track-color-disabled);
     cursor: not-allowed;
-
-    &[data-state="checked"] {
-      background: var(--switch-track-color-checked-disabled);
-    }
   }
-}
 
-.Thumb {
+    .Track[data-disabled][data-state="checked"] {
+      background: var(--switch-track-color-checked-disabled);
+    }.Thumb {
   position: absolute;
   top: var(--switch-thumb-offset);
   left: var(--switch-thumb-offset);
@@ -69,34 +64,31 @@
   background: var(--switch-thumb-color);
   box-shadow: var(--switch-thumb-shadow);
   transition: transform 250ms var(--cubic-move);
+}
 
-  [data-state="checked"] & {
+  [data-state="checked"] .Thumb {
     transform: translateX(
       calc(var(--switch-track-width) - var(--switch-thumb-size) - var(--switch-thumb-offset) * 2)
     );
   }
 
-  &[data-disabled] {
+  .Thumb[data-disabled] {
     background: var(--switch-thumb-color-disabled);
     box-shadow: none;
-  }
+  }.Label {
+  cursor: pointer;
 }
 
-.Label {
-  cursor: pointer;
-
   /* Use padding so that the spacing is intrinsic to the label, remaining clickable. */
-  [data-label-position="end"] & {
+  [data-label-position="end"] .Label {
     padding-left: var(--switch-label-gap);
   }
 
-  [data-label-position="start"] & {
+  [data-label-position="start"] .Label {
     padding-right: var(--switch-label-gap);
   }
 
-  [data-disabled] & {
+  [data-disabled] .Label {
     cursor: not-allowed;
   }
-}
-
 }

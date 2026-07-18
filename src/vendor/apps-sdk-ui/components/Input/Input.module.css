@@ -1,5 +1,4 @@
-@layer components {
-.Container {
+@layer components {.Container {
   display: flex;
   align-items: center;
   gap: var(--input-gap);
@@ -13,67 +12,64 @@
   transition-duration: var(--transition-duration-basic);
   transition-property: color, box-shadow, background-color;
   transition-timing-function: var(--transition-ease-basic);
+}
 
-  &:where([data-optically-align="start"]) {
+  .Container:where([data-optically-align="start"]) {
     margin-inline-start: calc(var(--input-gutter) * -1);
   }
 
-  &:where([data-optically-align="end"]) {
+  .Container:where([data-optically-align="end"]) {
     margin-inline-end: calc(var(--input-gutter) * -1);
   }
 
   /* =============================================
     Outline variant
   ============================================= */
-  &:where([data-variant="outline"]) {
+  .Container:where([data-variant="outline"]) {
     /* NOTE: Don't add box-model size here, as the <input> defines all height sizing */
     box-shadow: 0 0 0 1px var(--input-outline-border-color) inset;
-
-    &:not([data-disabled]) {
-      @media (hover: hover) and (pointer: fine) { &:hover { 
+  }
+      @media (hover: hover) and (pointer: fine) {.Container:where([data-variant="outline"]):not([data-disabled]):hover {
         box-shadow: 0 0 0 1px var(--input-outline-border-color-hover) inset;
-       } }
+}
+}
 
-      &[data-focused="true"] {
+      .Container:where([data-variant="outline"]):not([data-disabled])[data-focused="true"] {
         box-shadow: 0 0 0 1px var(--input-outline-border-color-focus) inset;
       }
 
-      &[data-invalid] {
+      .Container:where([data-variant="outline"]):not([data-disabled])[data-invalid] {
         box-shadow: 0 0 0 1px var(--input-border-color-invalid) inset;
       }
-    }
-  }
 
   /* =============================================
     Soft variant
   ============================================= */
-  &:where([data-variant="soft"]) {
+  .Container:where([data-variant="soft"]) {
     background-color: var(--input-soft-background-color);
-
-    &:not([data-disabled]) {
-      &[data-focused="true"] {
+  }
+      .Container:where([data-variant="soft"]):not([data-disabled])[data-focused="true"] {
         box-shadow: 0 0 0 1px var(--input-soft-border-color-focus) inset;
       }
 
-      &[data-invalid] {
+      .Container:where([data-variant="soft"]):not([data-disabled])[data-invalid] {
         box-shadow: 0 0 0 1px var(--input-border-color-invalid) inset;
       }
-    }
-  }
 
   /* =============================================
     Invalid
   ============================================= */
-  &[data-invalid] {
-    ::selection {
+    .Container[data-invalid] ::-moz-selection {
       background-color: var(--red-a50);
     }
-  }
+    .Container[data-invalid] ::selection {
+      background-color: var(--red-a50);
+    }
 
   /* =============================================
     Sizes
   ============================================= */
-  &:where([data-size="3xs"]) {
+  .Container:where([data-size="3xs"]) {
     --input-size: var(--control-size-3xs);
     --input-font-size: var(--control-font-size-sm);
     --input-radius: var(--control-radius-sm);
@@ -82,7 +78,7 @@
     --input-adornment-offset: -1px;
   }
 
-  &:where([data-size="2xs"]) {
+  .Container:where([data-size="2xs"]) {
     --input-size: var(--control-size-2xs);
     --input-font-size: var(--control-font-size-sm);
     --input-radius: var(--control-radius-sm);
@@ -91,7 +87,7 @@
     --input-adornment-offset: -1px;
   }
 
-  &:where([data-size="xs"]) {
+  .Container:where([data-size="xs"]) {
     --input-size: var(--control-size-xs);
     --input-font-size: var(--control-font-size-md);
     --input-radius: var(--control-radius-sm);
@@ -100,7 +96,7 @@
     --input-adornment-offset: -1px;
   }
 
-  &:where([data-size="sm"]) {
+  .Container:where([data-size="sm"]) {
     --input-size: var(--control-size-sm);
     --input-font-size: var(--control-font-size-md);
     --input-radius: var(--control-radius-md);
@@ -109,7 +105,7 @@
     --input-adornment-offset: -1px;
   }
 
-  &:where([data-size="md"]) {
+  .Container:where([data-size="md"]) {
     --input-size: var(--control-size-md);
     --input-font-size: var(--control-font-size-md);
     --input-radius: var(--control-radius-md);
@@ -117,7 +113,7 @@
     --input-gap: var(--input-gap-md);
   }
 
-  &:where([data-size="lg"]) {
+  .Container:where([data-size="lg"]) {
     --input-size: var(--control-size-lg);
     --input-font-size: var(--control-font-size-md);
     --input-radius: var(--control-radius-md);
@@ -125,7 +121,7 @@
     --input-gap: var(--input-gap-md);
   }
 
-  &:where([data-size="xl"]) {
+  .Container:where([data-size="xl"]) {
     --input-size: var(--control-size-xl);
     --input-font-size: var(--control-font-size-lg);
     --input-radius: var(--control-radius-lg);
@@ -133,7 +129,7 @@
     --input-gap: var(--input-gap-lg);
   }
 
-  &:where([data-size="2xl"]) {
+  .Container:where([data-size="2xl"]) {
     --input-size: var(--control-size-2xl);
     --input-font-size: var(--control-font-size-lg);
     --input-radius: var(--control-radius-xl);
@@ -142,7 +138,7 @@
     --input-adornment-offset: -4px;
   }
 
-  &:where([data-size="3xl"]) {
+  .Container:where([data-size="3xl"]) {
     --input-size: var(--control-size-3xl);
     --input-font-size: var(--control-font-size-lg);
     --input-radius: var(--control-radius-xl);
@@ -154,32 +150,32 @@
   /* =============================================
     Gutter sizes
   ============================================= */
-  &:where([data-gutter-size="2xs"]) {
+  .Container:where([data-gutter-size="2xs"]) {
     --input-gutter: var(--control-gutter-2xs);
     --input-adornment-offset: -1px;
   }
 
-  &:where([data-gutter-size="xs"]) {
+  .Container:where([data-gutter-size="xs"]) {
     --input-gutter: var(--control-gutter-xs);
     --input-adornment-offset: -1px;
   }
 
-  &:where([data-gutter-size="sm"]) {
+  .Container:where([data-gutter-size="sm"]) {
     --input-gutter: var(--control-gutter-sm);
     --input-adornment-offset: -2px;
   }
 
-  &:where([data-gutter-size="md"]) {
+  .Container:where([data-gutter-size="md"]) {
     --input-gutter: var(--control-gutter-md);
     --input-adornment-offset: -2px;
   }
 
-  &:where([data-gutter-size="lg"]) {
+  .Container:where([data-gutter-size="lg"]) {
     --input-gutter: var(--control-gutter-lg);
     --input-adornment-offset: -2px;
   }
 
-  &:where([data-gutter-size="xl"]) {
+  .Container:where([data-gutter-size="xl"]) {
     --input-gutter: var(--control-gutter-xl);
     --input-adornment-offset: -4px;
   }
@@ -187,53 +183,50 @@
   /* =============================================
     Pill
   ============================================= */
-  &:where([data-pill]) {
+  .Container:where([data-pill]) {
     --input-radius: var(--radius-full);
   }
 
   /* =============================================
     Disabled
   ============================================= */
-  &[data-disabled] {
+  .Container[data-disabled] {
     cursor: not-allowed;
     opacity: 0.5;
+  }
+  /*
+   * When adornments are present, gutter is applied to the container instead of the input.
+   */
+  .Container:where([data-has-start-adornment]) {
+    padding-left: var(--input-gutter);
   }
 
   /* =============================================
     Gutter
   ============================================= */
-  /*
-   * When adornments are present, gutter is applied to the container instead of the input.
-   */
-  &:where([data-has-start-adornment]) {
-    padding-left: var(--input-gutter);
-  }
 
-  &:where([data-has-start-adornment][data-pill]) {
+  .Container:where([data-has-start-adornment][data-pill]) {
     padding-left: calc(var(--input-gutter) * var(--control-gutter-pill-scaling));
   }
 
-  &:where([data-has-end-adornment]) {
+  .Container:where([data-has-end-adornment]) {
     padding-right: var(--input-gutter);
   }
 
-  &:where([data-has-end-adornment][data-pill]) {
+  .Container:where([data-has-end-adornment][data-pill]) {
     padding-right: calc(var(--input-gutter) * var(--control-gutter-pill-scaling));
   }
 
   /* =============================================
     Adornments
   ============================================= */
-  > :first-child:not(input) {
+  .Container > :first-child:not(input) {
     margin-left: var(--input-adornment-offset, -2px);
   }
 
-  > :last-child:not(input) {
+  .Container > :last-child:not(input) {
     margin-right: var(--input-adornment-offset, -2px);
-  }
-}
-
-.Input {
+  }.Input {
   display: block;
   width: 100%;
   height: var(--input-size);
@@ -247,83 +240,98 @@
   font-size: inherit;
   font-weight: inherit;
   line-height: inherit;
+}
 
-  &:focus {
+  .Input:focus {
     outline: 0;
   }
 
-  &:disabled {
+  .Input:disabled {
     cursor: not-allowed;
   }
 
-  &::placeholder {
+  .Input::-moz-placeholder {
+    color: var(--input-placeholder-text-color);
+  }
+
+  .Input::placeholder {
     color: var(--input-placeholder-text-color);
   }
 
   /* Applying an animation on autofill allows us to listen for the event in JS */
-  &:-webkit-autofill {
+  .Input:-webkit-autofill {
     animation: native-autofill-in 1ms;
   }
 
-  &:-webkit-autofill, &:-webkit-autofill:focus, &:-webkit-autofill:hover { 
+  .Input:-webkit-autofill, .Input:-webkit-autofill:focus, .Input:-webkit-autofill:hover {
     color: var(--color-text) !important;
     -webkit-text-fill-color: var(--color-text) !important;
     /*
      * Prevent all color changes by delaying their effect for a very long time
      * We cannot beat the specificity of user-agent stylesheet declarations, so we must delay them.
      */
+    -webkit-transition:
+      background-color 0s 50000s,
+      box-shadow 0s 50000s,
+      filter 0s 50000s !important;
     transition:
       background-color 0s 50000s,
       box-shadow 0s 50000s,
       filter 0s 50000s !important;
-   }
-&:-webkit-autofill-and-obscured, &:-webkit-autofill-strong-password, &:-webkit-autofill-strong-password-viewable { 
+}
+
+  .Input:-webkit-autofill-and-obscured, .Input:-webkit-autofill-strong-password, .Input:-webkit-autofill-strong-password-viewable {
     color: var(--color-text) !important;
     -webkit-text-fill-color: var(--color-text) !important;
     /*
      * Prevent all color changes by delaying their effect for a very long time
      * We cannot beat the specificity of user-agent stylesheet declarations, so we must delay them.
      */
+    -webkit-transition:
+      background-color 0s 50000s,
+      box-shadow 0s 50000s,
+      filter 0s 50000s !important;
     transition:
       background-color 0s 50000s,
       box-shadow 0s 50000s,
       filter 0s 50000s !important;
-   }
+}
 
   /* Prevent strange autofill size adjustments */
-  &:-webkit-autofill::first-line {
+  .Input:-webkit-autofill::first-line {
     font-size: inherit !important;
+    -webkit-transition: font-size 0s 50000s !important;
     transition: font-size 0s 50000s !important;
   }
 
   /* Hide up/down arrows */
-  &[type="number"] {
+  .Input[type="number"] {
     /* Firefox */
-    appearance: textfield;
+    -webkit-appearance: textfield;
+       -moz-appearance: textfield;
+            appearance: textfield;
 
     /* Chrome, Safari, Edge, Opera */
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      margin: 0;
-      appearance: none;
-    }
   }
+    .Input[type="number"]::-webkit-outer-spin-button,
+    .Input[type="number"]::-webkit-inner-spin-button {
+      margin: 0;
+      -webkit-appearance: none;
+              appearance: none;
+    }
 
   /* Dynamic pill spacing */
-  :where(.Container[data-pill]) & {
+  :where(.Container[data-pill]) .Input {
     padding: 0 calc(var(--input-gutter) * var(--control-gutter-pill-scaling));
   }
 
-  :where(.Container[data-has-start-adornment]) & {
+  :where(.Container[data-has-start-adornment]) .Input {
     padding-left: 0;
   }
 
-  :where(.Container[data-has-end-adornment]) & {
+  :where(.Container[data-has-end-adornment]) .Input {
     padding-right: 0;
-  }
-}
-
-@keyframes native-autofill-in {
+  }@keyframes native-autofill-in {
   0% {
     opacity: 1;
   }
@@ -332,5 +340,4 @@
     opacity: 1;
   }
 }
-
 }

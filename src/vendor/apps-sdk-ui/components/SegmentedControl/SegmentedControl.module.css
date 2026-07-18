@@ -1,5 +1,4 @@
-@layer components {
-.SegmentedControl {
+@layer components {.SegmentedControl {
   --segmented-control-option-radius: calc(
     var(--segmented-control-radius) - var(--segmented-control-gutter)
   );
@@ -20,18 +19,19 @@
   /* Remove inline-flex baseline gap */
   vertical-align: middle;
   white-space: nowrap;
+}
 
-  &::-webkit-scrollbar {
+  .SegmentedControl::-webkit-scrollbar {
     width: 0;
     height: 0;
   }
 
-  &::-webkit-scrollbar-track,
-  &::-webkit-scrollbar-thumb {
+  .SegmentedControl::-webkit-scrollbar-track,
+  .SegmentedControl::-webkit-scrollbar-thumb {
     background: transparent;
   }
 
-  &:where([data-block]) {
+  .SegmentedControl:where([data-block]) {
     overflow: hidden;
     display: flex;
     width: 100%;
@@ -41,63 +41,63 @@
   /* =============================================
     Sizes
   ============================================= */
-  &:where([data-size="3xs"]) {
+  .SegmentedControl:where([data-size="3xs"]) {
     --segmented-control-size: var(--control-size-3xs);
     --segmented-control-font-size: var(--control-font-size-sm);
     --segmented-control-radius: var(--control-radius-sm);
     --segmented-control-option-gutter: var(--control-gutter-xs);
   }
 
-  &:where([data-size="2xs"]) {
+  .SegmentedControl:where([data-size="2xs"]) {
     --segmented-control-size: var(--control-size-2xs);
     --segmented-control-font-size: var(--control-font-size-sm);
     --segmented-control-radius: var(--control-radius-sm);
     --segmented-control-option-gutter: var(--control-gutter-xs);
   }
 
-  &:where([data-size="xs"]) {
+  .SegmentedControl:where([data-size="xs"]) {
     --segmented-control-size: var(--control-size-xs);
     --segmented-control-font-size: var(--control-font-size-md);
     --segmented-control-radius: var(--control-radius-sm);
     --segmented-control-option-gutter: var(--control-gutter-xs);
   }
 
-  &:where([data-size="sm"]) {
+  .SegmentedControl:where([data-size="sm"]) {
     --segmented-control-size: var(--control-size-sm);
     --segmented-control-font-size: var(--control-font-size-md);
     --segmented-control-radius: var(--control-radius-md);
     --segmented-control-option-gutter: var(--control-gutter-sm);
   }
 
-  &:where([data-size="md"]) {
+  .SegmentedControl:where([data-size="md"]) {
     --segmented-control-size: var(--control-size-md);
     --segmented-control-font-size: var(--control-font-size-md);
     --segmented-control-radius: var(--control-radius-md);
     --segmented-control-option-gutter: var(--control-gutter-md);
   }
 
-  &:where([data-size="lg"]) {
+  .SegmentedControl:where([data-size="lg"]) {
     --segmented-control-size: var(--control-size-lg);
     --segmented-control-font-size: var(--control-font-size-md);
     --segmented-control-radius: var(--control-radius-md);
     --segmented-control-option-gutter: var(--control-gutter-md);
   }
 
-  &:where([data-size="xl"]) {
+  .SegmentedControl:where([data-size="xl"]) {
     --segmented-control-size: var(--control-size-xl);
     --segmented-control-font-size: var(--control-font-size-md);
     --segmented-control-radius: var(--control-radius-lg);
     --segmented-control-option-gutter: var(--control-gutter-lg);
   }
 
-  &:where([data-size="2xl"]) {
+  .SegmentedControl:where([data-size="2xl"]) {
     --segmented-control-size: var(--control-size-2xl);
     --segmented-control-font-size: var(--control-font-size-lg);
     --segmented-control-radius: var(--control-radius-xl);
     --segmented-control-option-gutter: var(--control-gutter-xl);
   }
 
-  &:where([data-size="3xl"]) {
+  .SegmentedControl:where([data-size="3xl"]) {
     --segmented-control-size: var(--control-size-3xl);
     --segmented-control-font-size: var(--control-font-size-lg);
     --segmented-control-radius: var(--control-radius-xl);
@@ -107,40 +107,37 @@
   /* =============================================
     Gutter sizes
   ============================================= */
-  &:where([data-gutter-size="2xs"]) {
+  .SegmentedControl:where([data-gutter-size="2xs"]) {
     --segmented-control-option-gutter: var(--control-gutter-2xs);
   }
 
-  &:where([data-gutter-size="xs"]) {
+  .SegmentedControl:where([data-gutter-size="xs"]) {
     --segmented-control-option-gutter: var(--control-gutter-xs);
   }
 
-  &:where([data-gutter-size="sm"]) {
+  .SegmentedControl:where([data-gutter-size="sm"]) {
     --segmented-control-option-gutter: var(--control-gutter-sm);
   }
 
-  &:where([data-gutter-size="md"]) {
+  .SegmentedControl:where([data-gutter-size="md"]) {
     --segmented-control-option-gutter: var(--control-gutter-md);
   }
 
-  &:where([data-gutter-size="lg"]) {
+  .SegmentedControl:where([data-gutter-size="lg"]) {
     --segmented-control-option-gutter: var(--control-gutter-lg);
   }
 
-  &:where([data-gutter-size="xl"]) {
+  .SegmentedControl:where([data-gutter-size="xl"]) {
     --segmented-control-option-gutter: var(--control-gutter-xl);
   }
 
   /* =============================================
     Pill
   ============================================= */
-  &:where([data-pill]) {
+  .SegmentedControl:where([data-pill]) {
     --segmented-control-radius: var(--radius-full);
     --segmented-control-option-radius: var(--radius-full);
-  }
-}
-
-.SegmentedControlOption {
+  }.SegmentedControlOption {
   position: relative;
   padding: 0 var(--segmented-control-option-gutter);
   border-radius: var(--segmented-control-option-radius);
@@ -150,24 +147,25 @@
   transition-duration: var(--transition-duration-basic);
   transition-property: opacity, background-color, color;
   transition-timing-function: var(--transition-ease-basic);
+}
 
-  &:focus {
+  .SegmentedControlOption:focus {
     outline: 0;
   }
 
-  :where(.SegmentedControl[data-block]) & {
+  :where(.SegmentedControl[data-block]) .SegmentedControlOption {
     flex: 1;
   }
 
-  :where(.SegmentedControl[data-pill]) & {
+  :where(.SegmentedControl[data-pill]) .SegmentedControlOption {
     padding: 0 calc(var(--segmented-control-option-gutter) * var(--control-gutter-pill-scaling));
   }
 
-  &[data-state="on"]:focus-visible {
+  .SegmentedControlOption[data-state="on"]:focus-visible {
     outline: 2px solid var(--color-ring);
   }
 
-  &::before {
+  .SegmentedControlOption::before {
     position: absolute;
     inset: var(--segmented-control-option-highlight-gutter);
     border-radius: var(--segmented-control-option-radius);
@@ -182,48 +180,43 @@
     will-change: transform;
   }
 
-  &:active::before {
+  .SegmentedControlOption:active::before {
     transform: scale(var(--scale), 0.97);
   }
 
-  svg {
+  .SegmentedControlOption svg {
     display: block;
   }
-
-  &[data-state="off"]:where(:not([disabled])) {
-    @media (hover: hover) and (pointer: fine) { &:hover { 
+    @media (hover: hover) and (pointer: fine) {.SegmentedControlOption[data-state="off"]:where(:not([disabled])):hover {
       color: var(--color-text);
+}
 
-      &::before {
+      .SegmentedControlOption[data-state="off"]:where(:not([disabled])):hover::before {
         opacity: 0.5;
       }
-     } }
+}
 
-    &:focus-visible {
+    .SegmentedControlOption[data-state="off"]:where(:not([disabled])):focus-visible {
       color: var(--color-text);
       outline: 2px solid var(--color-ring);
     }
 
-    &:active::before {
+    .SegmentedControlOption[data-state="off"]:where(:not([disabled])):active::before {
       opacity: 0.75;
     }
-  }
 
-  &[data-state="on"] {
+  .SegmentedControlOption[data-state="on"] {
     color: var(--color-text);
   }
 
-  &[data-disabled] {
+  .SegmentedControlOption[data-disabled] {
     cursor: not-allowed;
     opacity: 0.5;
-
-    &::before {
-      opacity: 0 !important;
-    }
   }
-}
 
-.SegmentedControlThumb {
+    .SegmentedControlOption[data-disabled]::before {
+      opacity: 0 !important;
+    }.SegmentedControlThumb {
   position: absolute;
   top: var(--segmented-control-gutter);
   bottom: var(--segmented-control-gutter);
@@ -234,5 +227,4 @@
   pointer-events: none;
   will-change: transform;
 }
-
 }

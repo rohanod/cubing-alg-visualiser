@@ -1,9 +1,6 @@
-@layer components {
-.Menu {
+@layer components {.Menu {
   /* Top-level selector needs to exist */
-}
-
-.MenuList {
+}.MenuList {
   overflow: auto;
   width: var(--menu-width, auto);
   min-width: var(--menu-min-width, 300px);
@@ -24,15 +21,16 @@
   /* The transform-origin computed from the content and arrow positions/offsets */
   transform-origin: var(--radix-dropdown-menu-content-transform-origin);
   will-change: transform;
+}
 
   /* Animation states applied to a wrapping parent */
-  .Menu[data-entering] & {
+  .Menu[data-entering] .MenuList {
     opacity: 0;
     transform: scale(0.95);
   }
 
-  .Menu[data-entering-active] &,
-  .Menu[data-entering][data-interrupted] & {
+  .Menu[data-entering-active] .MenuList,
+  .Menu[data-entering][data-interrupted] .MenuList {
     opacity: 1;
     transform: scale(1);
     transition-duration: 0.35s;
@@ -40,26 +38,21 @@
     transition-timing-function: var(--cubic-enter);
   }
 
-  .Menu[data-exiting] & {
+  .Menu[data-exiting] .MenuList {
     opacity: 1;
     transform: scale(1);
   }
 
-  .Menu[data-exiting-active] &,
-  .Menu[data-exiting][data-interrupted] & {
+  .Menu[data-exiting-active] .MenuList,
+  .Menu[data-exiting][data-interrupted] .MenuList {
     opacity: 0;
     transform: scale(0.95);
     transition-duration: 0.2s;
     transition-property: opacity, transform;
     transition-timing-function: var(--cubic-exit);
-  }
-}
-
-.MenuItemContent {
+  }.MenuItemContent {
   padding: var(--menu-item-padding);
-}
-
-.MenuItem {
+}.MenuItem {
   position: relative;
   display: block;
   /* Defaults to inherit from pressable wrapper, this container is not flex */
@@ -68,18 +61,22 @@
   padding: var(--menu-item-padding);
   color: var(--color-text);
   cursor: pointer;
-  user-select: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
 
-  &:focus {
+  .MenuItem:focus {
     outline: none;
   }
 
-  @media (hover: hover) and (pointer: fine) { &:hover { 
+  @media (hover: hover) and (pointer: fine) {.MenuItem:hover {
     /* Prevent links from changing colors */
     color: var(--color-text);
-   } }
+}
+}
 
-  &::before {
+  .MenuItem::before {
     position: absolute;
     inset: 0;
     display: block;
@@ -93,47 +90,38 @@
     transition-timing-function: var(--cubic-enter);
     will-change: opacity, transform;
   }
-
-  &[data-state="open"],
-  &[data-highlighted] {
-    &::before {
+    .MenuItem[data-state="open"]::before, .MenuItem[data-highlighted]::before {
       opacity: 1;
       transform: scale(1);
     }
 
-    &:has(.ItemActions:hover)::before {
+    .MenuItem[data-state="open"]:has(.ItemActions:hover)::before, .MenuItem[data-highlighted]:has(.ItemActions:hover)::before {
       opacity: 0.4;
     }
 
-    &:not(:has(.ItemActions:hover)):active::before {
+    .MenuItem[data-state="open"]:not(:has(.ItemActions:hover)):active::before, .MenuItem[data-highlighted]:not(:has(.ItemActions:hover)):active::before {
       transform: scale(var(--scale, 0.98));
     }
 
-    .ItemActions {
+    .MenuItem[data-state="open"] .ItemActions, .MenuItem[data-highlighted] .ItemActions {
       opacity: 1;
     }
-  }
 
-  &[data-disabled] {
+  .MenuItem[data-disabled] {
     cursor: not-allowed;
     opacity: 0.5;
-
-    &::before {
-      display: none;
-    }
   }
-}
 
-.PressableInner {
+    .MenuItem[data-disabled]::before {
+      display: none;
+    }.PressableInner {
   position: relative;
   display: flex;
   /* Allow flex settings to be applied to the container, for className ergonomics */
   align-items: inherit;
   justify-content: inherit;
   gap: inherit;
-}
-
-.ItemActions {
+}.ItemActions {
   /* Prevent adding height to the MenuItem, and horizontally center */
   display: flex;
   align-items: center;
@@ -144,40 +132,30 @@
   transition-duration: var(--transition-duration-basic);
   transition-property: opacity;
   transition-timing-function: var(--cubic-enter);
-}
-
-.Separator {
+}.Separator {
   height: 1px;
   margin: var(--menu-separator-gutter);
   background: var(--menu-separator-background-color);
-}
-
-.SubMenuItem {
+}.SubMenuItem {
   justify-content: space-between;
-}
-
-.SubTriggerIcon {
+}.SubTriggerIcon {
   /* slight visual offset of svg canvas */
   margin-right: -2px;
   opacity: 0.75;
   transition: opacity var(--transition-duration-basic) var(--transition-ease-basic);
-
-  .SubMenuItem[data-state="open"] &,
-  .SubMenuItem[data-highlighted] & {
-    opacity: 1;
-  }
 }
 
-.RadioItem {
+  .SubMenuItem[data-state="open"] .SubTriggerIcon,
+  .SubMenuItem[data-highlighted] .SubTriggerIcon {
+    opacity: 1;
+  }.RadioItem {
   gap: calc(var(--spacing) * 2);
+}
 
-  :where([data-indicator-position="end"]) & {
+  :where([data-indicator-position="end"]) .RadioItem {
     justify-content: space-between;
     gap: calc(var(--spacing) * 3);
-  }
-}
-
-.RadioIndicatorActive {
+  }.RadioIndicatorActive {
   position: relative;
   display: inline-grid;
   align-items: center;
@@ -185,8 +163,11 @@
   width: 100%;
   height: 100%;
 
-  &::before,
-  &::after {
+  /* Don't play the animation when entering */
+}
+
+  .RadioIndicatorActive::before,
+  .RadioIndicatorActive::after {
     display: block;
     content: "";
     grid-column-start: 1;
@@ -196,7 +177,7 @@
   }
 
   /* Filled circle */
-  &::before {
+  .RadioIndicatorActive::before {
     width: var(--menu-radio-indicator-size);
     height: var(--menu-radio-indicator-size);
     border-radius: var(--radius-full);
@@ -205,22 +186,17 @@
   }
 
   /*  Empty middle circle */
-  &::after {
+  .RadioIndicatorActive::after {
     width: var(--menu-radio-indicator-hole-size);
     height: var(--menu-radio-indicator-hole-size);
     border-radius: var(--radius-full);
     animation: scale-in 0.4s var(--cubic-enter);
     background-color: var(--radio-group-indicator-hole-background-color);
   }
-
-  /* Don't play the animation when entering */
-  [data-entering] &::before,
-  [data-entering] &::after {
+  [data-entering] .RadioIndicatorActive::before,
+  [data-entering] .RadioIndicatorActive::after {
     animation-duration: 0s;
-  }
-}
-
-.RadioIndicator {
+  }.RadioIndicator {
   position: relative;
   display: flex;
   align-items: center;
@@ -237,26 +213,24 @@
   transition-duration: var(--transition-duration-basic);
   transition-property: box-shadow;
   transition-timing-function: var(--transition-ease-basic);
+}
 
-  [data-indicator-position="end"] & {
+  [data-indicator-position="end"] .RadioIndicator {
     order: 1;
   }
 
-  [data-highlighted] & {
+  [data-highlighted] .RadioIndicator {
     box-shadow: 0 0 0 1px var(--radio-group-indicator-border-color-hover) inset;
   }
 
-  [data-disabled] & {
+  [data-disabled] .RadioIndicator {
     cursor: not-allowed;
   }
 
   /* Can't be focused here anyway */
-  &:focus {
+  .RadioIndicator:focus {
     outline: none;
-  }
-}
-
-@keyframes scale-in {
+  }@keyframes scale-in {
   0% {
     transform: scale(0);
   }
@@ -264,9 +238,7 @@
   100% {
     transform: scale(1);
   }
-}
-
-@keyframes fade-in {
+}@keyframes fade-in {
   0% {
     opacity: 0;
   }
@@ -274,33 +246,27 @@
   100% {
     opacity: 1;
   }
+}.CheckboxItem {
+  gap: calc(var(--spacing) * 2);
 }
 
-.CheckboxItem {
-  gap: calc(var(--spacing) * 2);
-
-  &:where([data-indicator-position="end"]) {
+  .CheckboxItem:where([data-indicator-position="end"]) {
     justify-content: space-between;
     gap: calc(var(--spacing) * 3);
-  }
-}
-
-.CheckboxIndicator {
+  }.CheckboxIndicator {
   flex-shrink: 0;
   width: var(--menu-checkbox-indicator-size);
   height: var(--menu-checkbox-indicator-size);
+}
 
-  [data-indicator-position="end"] & {
+  [data-indicator-position="end"] .CheckboxIndicator {
     order: 1;
   }
 
-  [data-indicator-variant="solid"] & {
+  [data-indicator-variant="solid"] .CheckboxIndicator {
     border-radius: var(--radius-full);
     box-shadow: 0 0 0 1px var(--radio-group-indicator-border-color) inset;
-  }
-}
-
-.CheckboxCircle {
+  }.CheckboxCircle {
   position: relative;
   display: flex;
   align-items: center;
@@ -314,10 +280,9 @@
   color: var(--radio-group-indicator-hole-background-color);
 
   /* Don't play the animation when entering */
-  [data-entering] &::before,
-  [data-entering] &::after {
+}
+  [data-entering] .CheckboxCircle::before,
+  [data-entering] .CheckboxCircle::after {
     animation-duration: 0s;
   }
-}
-
 }

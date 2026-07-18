@@ -1,29 +1,27 @@
-@layer components {
-.MarkdownContent {
+@layer components {.MarkdownContent {
   overflow-wrap: anywhere;
-
-  /* Avoid margin collapse on all children, for more predictable spacing. */
-  /* ******************************************************************** */
+}
   /* IMPORTANT: These cannot be removed without changing SmoothMarkdown   */
-  *:first-child {
+  .MarkdownContent *:first-child {
     margin-top: 0;
   }
-
-  *:last-child {
-    margin-bottom: 0;
-  }
   /* ******************************************************************** */
 
+  .MarkdownContent *:last-child {
+    margin-bottom: 0;
+  }
+
   /* Headers */
-  h1 {
+  .MarkdownContent h1 {
     margin-bottom: 0.5rem;
     font-size: 1.75em;
     font-weight: var(--font-weight-semibold);
     letter-spacing: -0.04rem;
     line-height: 1.222;
   }
+  /* ******************************************************************** */
 
-  h2 {
+  .MarkdownContent h2 {
     margin-top: 2rem;
     margin-bottom: 1rem;
     font-size: 1.5em;
@@ -31,7 +29,9 @@
     line-height: 1.222;
   }
 
-  h3 {
+  /* Avoid margin collapse on all children, for more predictable spacing. */
+
+  .MarkdownContent h3 {
     margin-top: 1.125rem;
     margin-bottom: 0.625rem;
     font-size: 1.25em;
@@ -39,7 +39,7 @@
     line-height: 1.3;
   }
 
-  h4 {
+  .MarkdownContent h4 {
     margin-top: 1rem;
     margin-bottom: 0.5rem;
     font-size: 1em;
@@ -47,86 +47,88 @@
     line-height: 1.5;
   }
 
-  h5 {
+  .MarkdownContent h5 {
     font-size: 1em;
     font-weight: var(--font-weight-semibold);
     line-height: 1.5;
   }
 
-  h6 {
+  .MarkdownContent h6 {
     font-size: 1em;
     line-height: 1.5;
   }
 
   /* Lists */
-  ul,
-  ol {
+  .MarkdownContent ul,
+  .MarkdownContent ol {
     margin: 0.5em 0 1em;
+  }
 
-    > li > :first-child {
+    .MarkdownContent ul > li > :first-child, .MarkdownContent ol > li > :first-child {
       margin-top: 0;
       margin-bottom: 0;
     }
 
-    > li ul,
-    > li ol {
+    .MarkdownContent ul > li ul,
+    .MarkdownContent ul > li ol,
+    .MarkdownContent ol > li ul,
+    .MarkdownContent ol > li ol {
       margin-top: 0.25em !important;
     }
-  }
 
-  ul {
+  .MarkdownContent ul {
     padding-left: 1.625em;
     list-style-type: disc;
+  }
 
-    > li {
+    .MarkdownContent ul > li {
       padding-left: 0.375em;
       margin: 0.5em 0;
+    }
 
-      &::marker {
+      .MarkdownContent ul > li::marker {
         color: var(--color-text-secondary);
         font-size: 1em;
         font-weight: var(--font-weight-medium);
       }
-    }
-  }
 
-  ol {
+  .MarkdownContent ol {
     padding-left: 1.625em;
     list-style-type: decimal;
+  }
 
-    > li {
+    .MarkdownContent ol > li {
       padding-left: 0.375em;
       margin: 0.5em 0;
+    }
 
-      &::marker {
+      .MarkdownContent ol > li::marker {
         color: var(--color-text-secondary);
         font-size: 1em;
         font-weight: var(--font-weight-medium);
       }
-    }
-  }
 
-  li {
+  .MarkdownContent li {
     min-height: 1.5em;
     margin: 0.5em 0;
   }
 
   /* Text */
-  p {
+  .MarkdownContent p {
     margin: 1em 0;
   }
 
   /* Emphasis */
-  strong {
+  .MarkdownContent strong {
     font-weight: var(--font-weight-semibold);
   }
 
-  em {
+  .MarkdownContent em {
     font-style: italic;
   }
 
   /* Quotes */
-  blockquote {
+  .MarkdownContent blockquote {
     position: relative;
     padding-top: 0.25em;
     padding-bottom: 0.25rem;
@@ -134,8 +136,9 @@
     color: var(--tw-prose-quotes);
     font-weight: var(--font-weight-normal);
     quotes: "\201C" "\201D" "\2018" "\2019";
+  }
 
-    &::before {
+    .MarkdownContent blockquote::before {
       position: absolute;
       top: 0;
       bottom: 0;
@@ -143,21 +146,27 @@
       display: block;
       width: 0.25rem;
       border-radius: var(--radius-2xs);
-      background: light-dark(var(--alpha-15), var(--alpha-20));
       content: "";
     }
 
-    p {
-      margin: 0.5em 0 0;
+    .MarkdownContent blockquote::before, :where([data-theme="light"]) .MarkdownContent blockquote::before {
+background: var(--alpha-15);
+}
 
-      &:first-child {
+    :where([data-theme="dark"]) .MarkdownContent blockquote::before {
+background: var(--alpha-20);
+}
+
+    .MarkdownContent blockquote p {
+      margin: 0.5em 0 0;
+    }
+
+      .MarkdownContent blockquote p:first-child {
         margin-top: 0;
       }
-    }
-  }
 
   /* Dividers */
-  hr {
+  .MarkdownContent hr {
     border-color: var(--alpha-10);
     border-top-width: 1px;
     margin-top: 2em;
@@ -165,7 +174,7 @@
   }
 
   /* Tables */
-  table {
+  .MarkdownContent table {
     width: 100%;
     border: 0;
     margin-top: 2em;
@@ -176,53 +185,49 @@
     table-layout: auto;
   }
 
-  th {
+  .MarkdownContent th {
     border: 0;
     border-bottom: 1px solid var(--color-border-strong);
     line-height: var(--font-text-sm-line-height);
     padding-block: calc(var(--spacing) * 2);
     padding-inline: calc(var(--spacing) * 2);
     text-align: start;
+  }
 
-    &:first-child {
+    .MarkdownContent th:first-child {
       padding-inline-start: 0;
     }
 
-    &:last-child {
+    .MarkdownContent th:last-child {
       padding-inline-end: 0;
     }
-  }
 
-  td {
+  .MarkdownContent td {
     border: 0;
     border-bottom: 1px solid var(--color-border);
     padding-block: calc(var(--spacing) * 2.5);
     padding-inline: calc(var(--spacing) * 2);
+  }
 
-    &:first-child {
+    .MarkdownContent td:first-child {
       padding-inline-start: 0;
     }
 
-    &:last-child {
+    .MarkdownContent td:last-child {
       padding-inline-end: 0;
     }
-  }
-
-  tbody tr:last-child {
-    td {
+    .MarkdownContent tbody tr:last-child td {
       border-bottom: 0;
-    }
-  }
-}
-
-.InlineCode {
+    }.InlineCode {
   padding: 1px 0.3rem;
   border-radius: 0.25rem;
-  background-color: light-dark(var(--alpha-04), var(--alpha-10));
   box-shadow: inset 0 0 0 1px var(--alpha-08);
   color: inherit;
   font-size: 0.875em;
   font-weight: 500;
+}.InlineCode, :where([data-theme="light"]) .InlineCode {
+background-color: var(--alpha-04);
+}:where([data-theme="dark"]) .InlineCode {
+background-color: var(--alpha-10);
 }
-
 }

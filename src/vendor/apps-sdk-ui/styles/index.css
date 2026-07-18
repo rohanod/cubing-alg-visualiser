@@ -1,6 +1,8 @@
-/* Apps SDK UI design tokens + foundations (vendored, no Tailwind runtime). */
+/* Exact apps-sdk-ui foundation styles (published 0.2.2). */
+/* Local imports use .css extensions for Vite. */
 @import "./base.css";
 @import "./variables-primitive.css";
 @import "./variables-semantic.css";
 @import "./variables-components.css";
+@import "./tailwind-utilities.css";
 @import "./globals.css";

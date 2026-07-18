@@ -1,22 +1,32 @@
 # Vendored from openai/apps-sdk-ui
 
 - Upstream: https://github.com/openai/apps-sdk-ui
-- Version: 0.2.2 (package.json)
+- Version: 0.2.2
 - Commit: 0f00143c7a639906f1621fe58e1b6be7b5bea46d
 - License: MIT (see LICENSE)
-- Vendored as source under app control — not an npm dependency on `@openai/apps-sdk-ui`.
+- Embedded in-repo (not an npm dependency on `@openai/apps-sdk-ui`).
 
-## Components
+## Layout
 
-Full `src/components/` tree (stories/mdx/tests stripped). Refresh via:
+| Path | Source |
+|------|--------|
+| `styles/` | Published package `dist/es/styles` (exact tokens + `@theme` + Tailwind utilities) |
+| `components/**/*.module.css` | Published package CSS modules |
+| `components/**/*.tsx` | Upstream React source (stories/docs stripped) |
+| `lib/`, `hooks/`, `types.ts` | Upstream source |
 
-```bash
-cp -R ~/.explore/repos/openai__apps-sdk-ui/src/components/* src/vendor/apps-sdk-ui/components/
-# strip stories/docs, re-expand mixins in *.module.css
+## App wiring (matches Installation docs)
+
+```css
+/* src/index.css */
+@import "tailwindcss";
+@import "./vendor/apps-sdk-ui/styles/index.css";
+@source "./vendor/apps-sdk-ui";
 ```
 
-## CSS
+```ts
+// vite.config.ts
+plugins: [react(), tailwindcss()]
+```
 
-- `styles/`: PostCSS-processed foundations (tokens as `:root`, no Tailwind required).
-- Component `*.module.css`: source-level nesting kept; `@mixin` / `spacing()` expanded locally so Vite can ship without the upstream PostCSS plugin pack.
-- `lib/dateUtils.ts` omitted (luxon).
+Peer: `tailwindcss` ^4 + `@tailwindcss/vite`.

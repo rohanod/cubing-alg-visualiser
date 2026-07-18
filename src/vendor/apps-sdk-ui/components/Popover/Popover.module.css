@@ -1,9 +1,6 @@
-@layer components {
-.Transition {
+@layer components {.Transition {
   /* CSS Modules requires a top-level class to create the string map entry */
-}
-
-.Popover {
+}.Popover {
   overflow: auto;
   width: var(--popover-width, auto);
   min-width: var(--popover-min-width, 300px);
@@ -15,33 +12,34 @@
   -webkit-overflow-scrolling: touch;
   transform-origin: var(--radix-popover-content-transform-origin);
   will-change: transform;
+}
 
-  &:focus {
+  .Popover:focus {
     outline: none;
   }
 
-  &[data-translucent] {
+  .Popover[data-translucent] {
     backdrop-filter: blur(16px);
     background: linear-gradient(360deg, rgb(247 247 248 / 50%) 0%, rgb(247 247 248 / 100%) 100%);
-
-    :where([data-theme="dark"]) & { 
-      background: linear-gradient(360deg, rgb(86 88 105 / 25%) 0%, rgb(86 88 105 / 49%) 100%);
-     }
   }
 
+    :where([data-theme="dark"]) .Popover[data-translucent] {
+      background: linear-gradient(360deg, rgb(86 88 105 / 25%) 0%, rgb(86 88 105 / 49%) 100%);
+}
+
   /* One-off animations */
-  &[data-animate="shake"] {
+  .Popover[data-animate="shake"] {
     animation: shake 0.4s ease;
   }
 
   /* Visibility transitions */
-  .Transition[data-entering] & {
+  .Transition[data-entering] .Popover {
     opacity: 0;
     transform: scale(0.95);
   }
 
-  .Transition[data-entering-active] &,
-  .Transition[data-entering][data-interrupted] & {
+  .Transition[data-entering-active] .Popover,
+  .Transition[data-entering][data-interrupted] .Popover {
     opacity: 1;
     transform: scale(1);
     transition-duration: 0.35s;
@@ -49,22 +47,19 @@
     transition-timing-function: var(--cubic-enter);
   }
 
-  .Transition[data-exiting] & {
+  .Transition[data-exiting] .Popover {
     opacity: 1;
     transform: scale(1);
   }
 
-  .Transition[data-exiting-active] &,
-  .Transition[data-exiting][data-interrupted] & {
+  .Transition[data-exiting-active] .Popover,
+  .Transition[data-exiting][data-interrupted] .Popover {
     opacity: 0;
     transform: scale(0.95);
     transition-duration: 0.2s;
     transition-property: opacity, transform;
     transition-timing-function: var(--cubic-exit);
-  }
-}
-
-@keyframes shake {
+  }@keyframes shake {
   0% {
     transform: translateX(0);
   }
@@ -83,5 +78,4 @@
     transform: translateX(0);
   }
 }
-
 }

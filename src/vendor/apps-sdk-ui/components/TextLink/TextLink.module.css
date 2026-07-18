@@ -1,5 +1,4 @@
-@layer components {
-.TextLink {
+@layer components {.TextLink {
   display: inline-flex;
   align-items: center;
   gap: var(--link-gap);
@@ -12,39 +11,40 @@
   transition-duration: var(--transition-duration-basic);
   transition-property: opacity, color, box-shadow, text-decoration-color;
   transition-timing-function: var(--transition-ease-basic);
+}
 
-  @media (hover: hover) and (pointer: fine) { &:hover { 
+  @media (hover: hover) and (pointer: fine) {.TextLink:hover {
     color: color-mix(in oklab, currentcolor 80%, transparent);
+}
 
     /* stylelint-disable-next-line */
-    :global(.text-secondary) & {
+    :global(.text-secondary) .TextLink:hover {
       color: var(--color-text);
     }
 
     /* stylelint-disable-next-line */
-    :global(.text-tertiary) & {
+    :global(.text-tertiary) .TextLink:hover {
       color: var(--color-text-secondary);
     }
-   } }
+}
 
-  &:focus-visible {
+  .TextLink:focus-visible {
     outline: 2px solid var(--color-ring);
     outline-offset: 1px;
   }
 
-  &[data-underline] {
+  .TextLink[data-underline] {
     text-decoration: underline;
     text-decoration-color: color-mix(in oklab, currentcolor 70%, transparent);
     text-underline-offset: var(--link-underline-decoration-offset);
   }
 
-  &[data-primary] {
+  .TextLink[data-primary] {
     color: var(--link-primary-text-color);
-
-    @media (hover: hover) and (pointer: fine) { &:hover { 
-      color: var(--link-primary-text-color-hover);
-     } }
   }
-}
 
+    @media (hover: hover) and (pointer: fine) {.TextLink[data-primary]:hover {
+      color: var(--link-primary-text-color-hover);
+}
+}
 }

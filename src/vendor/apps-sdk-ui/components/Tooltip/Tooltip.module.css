@@ -1,5 +1,4 @@
-@layer components {
-.Tooltip {
+@layer components {.Tooltip {
   max-width: 300px;
   border-radius: var(--radius-md);
   /* animation-duration: 0.3s; */
@@ -15,47 +14,43 @@
   /* &[data-state="closed"] {
     animation: scale-out 0.2s var(--cubic-exit);
   } */
+}
 
   /*
    * Default cursor is slightly more pleasing than text cursor,
    * if a tooltip transitions between clickable -> non-clickable (e.g., CopyTooltip)
    */
-  &[data-clickable="false"] {
+  .Tooltip[data-clickable="false"] {
     cursor: default;
   }
 
-  &[data-clickable="true"] {
+  .Tooltip[data-clickable="true"] {
     cursor: pointer;
   }
-
-  &[data-compact="true"][data-clickable="true"] {
-    @media (hover: hover) and (pointer: fine) { &:hover { 
+    @media (hover: hover) and (pointer: fine) {.Tooltip[data-compact="true"][data-clickable="true"]:hover {
       background: var(--gray-600);
       color: var(--gray-0);
-     } }
-  }
+}
+}
 
-  &[data-gutter-size="sm"] {
+  .Tooltip[data-gutter-size="sm"] {
     padding: 8px 12px;
   }
 
-  &[data-gutter-size="md"] {
+  .Tooltip[data-gutter-size="md"] {
     padding: 12px 16px;
   }
 
-  &[data-gutter-size="lg"] {
+  .Tooltip[data-gutter-size="lg"] {
     padding: 14px 18px;
   }
 
-  &[data-compact="true"] {
+  .Tooltip[data-compact="true"] {
     padding: 2px 8px;
     background: var(--gray-700);
     color: var(--gray-0);
     font-size: 14px;
-  }
-}
-
-@keyframes scale-in {
+  }@keyframes scale-in {
   from {
     opacity: 0;
     transform: scale(0.95);
@@ -65,9 +60,7 @@
     opacity: 1;
     transform: scale(1);
   }
-}
-
-@keyframes scale-out {
+}@keyframes scale-out {
   from {
     opacity: 1;
     transform: scale(1);
@@ -77,23 +70,21 @@
     opacity: 0;
     transform: scale(0.95);
   }
-}
-
-.TriggerDecorator {
+}.TriggerDecorator {
   display: inline-flex;
   cursor: pointer;
-  text-decoration: underline dotted;
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted;
   text-decoration-color: transparent;
   /* transition: text-decoration 0.2s var(--cubic-exit); */
+}
 
-  &:focus {
+  .TriggerDecorator:focus {
     outline: 0;
   }
 
-  &[data-state*="open"] {
+  .TriggerDecorator[data-state*="open"] {
     text-decoration-color: var(--color-text-tertiary);
     transition-timing-function: var(--cubic-enter);
   }
-}
-
 }

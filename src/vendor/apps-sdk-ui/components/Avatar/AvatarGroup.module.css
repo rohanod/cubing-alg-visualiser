@@ -1,7 +1,8 @@
-.Group {
+@layer components {.Group {
   display: flex;
+}
 
-  > * ~ * {
+  .Group > * ~ * {
     box-shadow: 0 0 0 var(--avatar-group-cutout-width) var(--avatar-group-cutout-color);
 
     /*
@@ -12,17 +13,14 @@
      */
   }
 
-  &[data-stack="start"] {
+  .Group[data-stack="start"] {
     flex-direction: row-reverse;
+  }
 
-    > * ~ * {
+    .Group[data-stack="start"] > * ~ * {
       margin-inline-end: var(--avatar-group-spacing);
     }
-  }
-
-  &[data-stack="end"] {
-    > * ~ * {
+    .Group[data-stack="end"] > * ~ * {
       margin-inline-start: var(--avatar-group-spacing);
     }
-  }
 }
