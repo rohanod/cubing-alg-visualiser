@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState, type DragEvent } from "react";
 import {
   parseAlgorithmSetDocument,
+  toggleAngleCompletion,
   type AlgorithmSetDocument,
   type ParseError,
 } from "./algorithm-set";
@@ -80,9 +81,26 @@ export default function App() {
     setErrors(null);
   };
 
+  const toggleAngle = useCallback(
+    (categoryId: string, caseId: string, angleId: string) => {
+      setDocument((current) =>
+        current
+          ? toggleAngleCompletion(current, categoryId, caseId, angleId)
+          : current,
+      );
+    },
+    [],
+  );
+
   // Loaded set → layout A browse shell (import stays on empty state only for now).
   if (document) {
-    return <BrowseLayout document={document} onClear={clearSet} />;
+    return (
+      <BrowseLayout
+        document={document}
+        onClear={clearSet}
+        onToggleAngle={toggleAngle}
+      />
+    );
   }
 
   return (
