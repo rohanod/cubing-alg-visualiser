@@ -11,6 +11,7 @@ export type {
   CaseFilter,
   CaseLink,
   Category,
+  CategoryIcon,
   ColourScheme,
   ColourToken,
   CompletionFlag,

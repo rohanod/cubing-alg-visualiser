@@ -7,6 +7,9 @@
     {
       "id": "easy-inserts",
       "name": "Easy Inserts",
+      "icon": {
+        "setup": "R U R' U'"
+      },
       "cases": [
         {
           "id": "ei1",

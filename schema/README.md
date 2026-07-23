@@ -24,6 +24,9 @@ Algorithm set
 ├── colourScheme?             (all six faces if present)
 └── categories[]              (≥1)
     ├── id, name
+    ├── icon?                 (list thumbnail; after id/name)
+    │   ├── setup             (representative shape alg)
+    │   └── stage?            (optional; omit for silhouette list icons)
     └── cases[]               (≥1)
         ├── id, name, setup   (setup minLength 1)
         ├── stage?, mask?, links?
@@ -33,17 +36,29 @@ Algorithm set
             └── completed?    (0 | 1; omit → 0)
 ```
 
-Unknown properties are **rejected** (`additionalProperties: false`). New fields require a future `schemaVersion`.
+Unknown properties are **rejected** (`additionalProperties: false`). Schema version 1 may evolve while it is pre-release; after it is declared stable, new fields require a future `schemaVersion`.
 
 ### Required vs optional
 
 | Level | Required | Optional |
 |-------|----------|----------|
 | Set | `schemaVersion`, `id`, `name`, `categories` (≥1) | `stage`, `colourScheme` |
-| Category | `id`, `name`, `cases` (≥1) | — |
+| Category | `id`, `name`, `cases` (≥1) | `icon` |
+| Category icon | `setup` | `stage` |
 | Case | `id`, `name`, `setup`, `angles` (≥1) | `stage`, `mask`, `links` |
 | Angle | `id`, `solutions` (≥1) | `completed` |
 | Link | `label`, `url` (URI) | — |
+
+### Category `icon`
+
+Optional object **near the top of each category** (after `id` / `name`, before `cases`). Used for small list thumbnails so a category is scannable without opening it.
+
+| Field | Meaning |
+|-------|---------|
+| `setup` | Non-empty alg from the set base state to a **representative** cube shape for that category |
+| `stage` | Optional stage mask for coloured previews; **omit** when the UI should show a **silhouette** (mostly grey, a few light stickers) |
+
+**UI guidance (not enforced by schema):** category list rows use `icon` in silhouette style when present; case list rows can later show greys + real colours from each case’s own `setup` / `stage` (no separate case `icon` field required).
 
 ### Rejected edge cases
 

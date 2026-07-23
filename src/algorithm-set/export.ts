@@ -36,6 +36,9 @@ function exportCategory(category: Category): Category {
   return {
     id: category.id,
     name: category.name,
+    ...(category.icon !== undefined
+      ? { icon: { ...category.icon } }
+      : {}),
     cases: category.cases.map(exportCase),
   };
 }

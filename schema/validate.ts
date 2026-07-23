@@ -33,6 +33,24 @@ function mustFail(label: string, data: unknown) {
 mustPass("examples/minimal.json", example);
 
 const base = structuredClone(example) as Record<string, unknown>;
+const category = (base.categories as Array<Record<string, unknown>>)[0]!;
+
+mustPass("category icon with stage", {
+  ...base,
+  categories: [{ ...category, icon: { setup: "R U R'", stage: "F2L" } }],
+});
+
+for (const [label, icon] of [
+  ["category icon missing setup", {}],
+  ["category icon empty setup", { setup: "" }],
+  ["category icon invalid stage", { setup: "R", stage: "superoll" }],
+  ["category icon extra property", { setup: "R", notes: "nope" }],
+] as const) {
+  mustFail(label, {
+    ...base,
+    categories: [{ ...category, icon }],
+  });
+}
 
 mustFail("unknown stage superoll", {
   ...base,

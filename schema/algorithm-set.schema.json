@@ -125,6 +125,23 @@
         "minimum": 0
       }
     },
+    "categoryIcon": {
+      "description": "Optional list thumbnail for the category. Placed near the top of the category object (after id/name). UI typically renders a small cube from setup as a silhouette (mostly grey, a few light stickers). Case rows can use each case's own setup with real colours later.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["setup"],
+      "properties": {
+        "setup": {
+          "description": "Moves from the set base state that produce the category's representative cube shape. Must be non-empty.",
+          "type": "string",
+          "minLength": 1
+        },
+        "stage": {
+          "description": "Optional stage for coloured previews; omit for silhouette-style list icons.",
+          "$ref": "#/$defs/stage"
+        }
+      }
+    },
     "category": {
       "type": "object",
       "additionalProperties": false,
@@ -137,6 +154,9 @@
         "name": {
           "type": "string",
           "minLength": 1
+        },
+        "icon": {
+          "$ref": "#/$defs/categoryIcon"
         },
         "cases": {
           "type": "array",
