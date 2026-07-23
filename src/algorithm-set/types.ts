@@ -64,9 +64,17 @@ export interface Case {
   angles: Angle[];
 }
 
+/** Category list thumbnail; UI may render as silhouette (grey + light stickers). */
+export interface CategoryIcon {
+  setup: string;
+  stage?: CanonicalStage;
+}
+
 export interface Category {
   id: string;
   name: string;
+  /** Optional; place after id/name in authored JSON. */
+  icon?: CategoryIcon;
   cases: Case[];
 }
 

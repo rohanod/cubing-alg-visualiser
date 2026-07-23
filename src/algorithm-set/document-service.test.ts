@@ -45,6 +45,26 @@ function baseDoc(overrides: Record<string, unknown> = {}): Record<string, unknow
   };
 }
 
+function docWithCategoryIcon(icon: unknown): Record<string, unknown> {
+  return baseDoc({
+    categories: [
+      {
+        id: "cat",
+        name: "Cat",
+        icon,
+        cases: [
+          {
+            id: "c",
+            name: "C",
+            setup: "R",
+            angles: [{ id: "a", solutions: ["U"] }],
+          },
+        ],
+      },
+    ],
+  });
+}
+
 function caseWithAngles(
   angles: Array<{ id: string; completed?: 0 | 1; solutions?: string[] }>,
 ): Case {
@@ -182,6 +202,19 @@ describe("parseAlgorithmSetDocument — acceptance", () => {
     if (lastLayer.ok) expect(lastLayer.document.stage).toBe("ll");
   });
 
+  test("normalises category icon stage aliases", () => {
+    const result = parseAlgorithmSetDocument(
+      docWithCategoryIcon({ setup: "R U R'", stage: "F2L" }),
+    );
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.document.categories[0]!.icon).toEqual({
+        setup: "R U R'",
+        stage: "f2l",
+      });
+    }
+  });
+
   test("omitted completed becomes 0 in memory", () => {
     const result = parseAlgorithmSetDocument(
       baseDoc({
@@ -300,6 +333,25 @@ describe("parseAlgorithmSetDocument — rejection", () => {
         }),
         pathHint: "setup",
       },
+      ...[
+        ["category icon is not an object", "icon", "icon"],
+        ["category icon missing setup", {}, "setup"],
+        ["category icon empty setup", { setup: "" }, "setup"],
+        [
+          "category icon invalid stage",
+          { setup: "R", stage: "superoll" },
+          "stage",
+        ],
+        [
+          "category icon unknown property",
+          { setup: "R", notes: "nope" },
+          "notes",
+        ],
+      ].map(([name, icon, pathHint]) => ({
+        name: name as string,
+        input: docWithCategoryIcon(icon),
+        pathHint: pathHint as string,
+      })),
       {
         name: "empty categories",
         input: baseDoc({ categories: [] }),
@@ -652,8 +704,11 @@ describe("export serialisation", () => {
     const ei2 = again.document.categories[0]!.cases.find((c) => c.id === "ei2")!;
     expect(ei2.angles[0]!.completed).toBe(1);
 
-    // Stage stays canonical on export
+    // Stage stays canonical and category icon metadata survives export.
     expect(again.document.stage).toBe("f2l");
+    expect(again.document.categories[0]!.icon).toEqual({
+      setup: "R U R' U'",
+    });
   });
 
   test("export object matches import shape keys", () => {

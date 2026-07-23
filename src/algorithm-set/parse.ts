@@ -146,9 +146,14 @@ function parseCategories(
       }
     }
 
+    let icon: Category["icon"] | undefined;
+    if ("icon" in item && item.icon !== undefined) {
+      icon = parseCategoryIcon(item.icon, `${itemPath}.icon`, push);
+    }
+
     const cases = parseCases(item.cases, `${itemPath}.cases`, push);
 
-    const allowed = new Set(["id", "name", "cases"]);
+    const allowed = new Set(["id", "name", "icon", "cases"]);
     for (const key of Object.keys(item)) {
       if (!allowed.has(key)) {
         push(`${itemPath}.${key}`, "Unknown property");
@@ -156,12 +161,41 @@ function parseCategories(
     }
 
     if (catId !== undefined && catName !== undefined && cases !== undefined) {
-      categories.push({ id: catId, name: catName, cases });
+      const category: Category = { id: catId, name: catName, cases };
+      if (icon !== undefined) category.icon = icon;
+      categories.push(category);
     }
   }
 
   // Incomplete parse always pairs with errors; callers discard on errors.length > 0.
   return categories.length > 0 ? categories : undefined;
+}
+
+function parseCategoryIcon(
+  value: unknown,
+  path: string,
+  push: (path: string, message: string) => void,
+): Category["icon"] | undefined {
+  if (!isPlainObject(value)) {
+    push(path, "Must be an object");
+    return undefined;
+  }
+
+  const setup = requireNonEmptyString(value, "setup", `${path}.setup`, push);
+  let stage: NonNullable<Category["icon"]>["stage"];
+  if ("stage" in value && value.stage !== undefined) {
+    stage = parseStage(value.stage, `${path}.stage`, push);
+  }
+
+  const allowed = new Set(["setup", "stage"]);
+  for (const key of Object.keys(value)) {
+    if (!allowed.has(key)) {
+      push(`${path}.${key}`, "Unknown property");
+    }
+  }
+
+  if (setup === undefined) return undefined;
+  return stage === undefined ? { setup } : { setup, stage };
 }
 
 function parseCases(
