@@ -1,20 +1,27 @@
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
-import type { AlgorithmSetDocument, Case, Category } from "./algorithm-set";
+import {
+  caseMatchesFilter,
+  caseProgress,
+  isCaseComplete,
+  type AlgorithmSetDocument,
+  type Case,
+  type CaseFilter,
+  type Category,
+} from "./algorithm-set";
 import { Button } from "./vendor/apps-sdk-ui/components/Button";
+import { Checkbox } from "./vendor/apps-sdk-ui/components/Checkbox";
 import { EmptyMessage } from "./vendor/apps-sdk-ui/components/EmptyMessage";
 import { ArrowLeft } from "./vendor/apps-sdk-ui/components/Icon";
+import { RadioGroup } from "./vendor/apps-sdk-ui/components/RadioGroup";
 
 type MobileLevel = "categories" | "cases" | "detail";
 
 type BrowseLayoutProps = {
   document: AlgorithmSetDocument;
   onClear: () => void;
+  onToggleAngle: (categoryId: string, caseId: string, angleId: string) => void;
 };
-
-function caseCount(doc: AlgorithmSetDocument): number {
-  return doc.categories.reduce((n, cat) => n + cat.cases.length, 0);
-}
 
 /** Safe lookups — never assume selection still exists after clear/reload. */
 function findCategory(
@@ -30,21 +37,42 @@ function findCase(category: Category | null, id: string | null): Case | null {
   return category.cases.find((c) => c.id === id) ?? null;
 }
 
-export function BrowseLayout({ document, onClear }: BrowseLayoutProps) {
+export function BrowseLayout({
+  document,
+  onClear,
+  onToggleAngle,
+}: BrowseLayoutProps) {
   const isDesktop = useMediaQuery("(min-width: 1024px)");
   const [categoryId, setCategoryId] = useState<string | null>(null);
   const [caseId, setCaseId] = useState<string | null>(null);
+  const [filter, setFilter] = useState<CaseFilter>("all");
   const [mobileLevel, setMobileLevel] = useState<MobileLevel>("categories");
 
+  const progress = caseProgress(document);
   const category = findCategory(document, categoryId);
+  const filteredCases = category
+    ? category.cases.filter((caseItem) => caseMatchesFilter(caseItem, filter))
+    : [];
   const selectedCase = findCase(category, caseId);
+  const visibleCase =
+    selectedCase && caseMatchesFilter(selectedCase, filter)
+      ? selectedCase
+      : null;
 
   // Drop stale selection when the loaded document changes.
   useEffect(() => {
     setCategoryId(null);
     setCaseId(null);
+    setFilter("all");
     setMobileLevel("categories");
   }, [document.id]);
+
+  // A completion toggle can move the open case out of the active filter.
+  useEffect(() => {
+    if (!selectedCase || visibleCase) return;
+    setCaseId(null);
+    setMobileLevel((level) => (level === "detail" ? "cases" : level));
+  }, [selectedCase, visibleCase]);
 
   const selectCategory = (id: string) => {
     setCategoryId(id);
@@ -94,7 +122,8 @@ export function BrowseLayout({ document, onClear }: BrowseLayoutProps) {
         <div className="min-w-0 flex-1">
           <h1 className="heading-sm truncate">{document.name}</h1>
           <p className="truncate text-xs text-secondary">
-            {document.categories.length} categories · {caseCount(document)} cases
+            {document.categories.length} categories · {progress.complete}/
+            {progress.total} cases complete
             {document.stage ? ` · ${document.stage}` : null}
           </p>
         </div>
@@ -137,6 +166,7 @@ export function BrowseLayout({ document, onClear }: BrowseLayoutProps) {
               <ul className="min-h-0 flex-1 overflow-y-auto p-1">
                 {document.categories.map((cat) => {
                   const selected = cat.id === category?.id;
+                  const complete = cat.cases.filter(isCaseComplete).length;
                   return (
                     <li key={cat.id}>
                       <button
@@ -151,7 +181,7 @@ export function BrowseLayout({ document, onClear }: BrowseLayoutProps) {
                       >
                         <span className="truncate">{cat.name}</span>
                         <span className="shrink-0 text-xs text-secondary">
-                          {cat.cases.length}
+                          {complete}/{cat.cases.length}
                         </span>
                       </button>
                     </li>
@@ -167,8 +197,20 @@ export function BrowseLayout({ document, onClear }: BrowseLayoutProps) {
             className="flex min-h-0 flex-col border-default md:border-r"
             aria-label="Cases"
           >
-            <div className="border-b border-default px-3 py-2 text-xs font-medium text-secondary">
-              {category ? category.name : "Cases"}
+            <div className="flex flex-col gap-2 border-b border-default px-3 py-2 text-xs font-medium text-secondary">
+              <span>{category ? category.name : "Cases"}</span>
+              {category ? (
+                <RadioGroup<CaseFilter>
+                  value={filter}
+                  onChange={setFilter}
+                  aria-label="Filter cases"
+                  className="flex-wrap text-primary"
+                >
+                  <RadioGroup.Item value="all">All</RadioGroup.Item>
+                  <RadioGroup.Item value="incomplete">Incomplete</RadioGroup.Item>
+                  <RadioGroup.Item value="complete">Complete</RadioGroup.Item>
+                </RadioGroup>
+              ) : null}
             </div>
             {!category ? (
               <div className="p-4">
@@ -188,23 +230,37 @@ export function BrowseLayout({ document, onClear }: BrowseLayoutProps) {
                   </EmptyMessage.Description>
                 </EmptyMessage>
               </div>
+            ) : filteredCases.length === 0 ? (
+              <div className="p-4">
+                <EmptyMessage>
+                  <EmptyMessage.Title>No {filter} cases</EmptyMessage.Title>
+                  <EmptyMessage.Description>
+                    No cases in this category match this filter. Choose All to
+                    see every case.
+                  </EmptyMessage.Description>
+                </EmptyMessage>
+              </div>
             ) : (
               <ul className="min-h-0 flex-1 overflow-y-auto p-1">
-                {category.cases.map((c) => {
-                  const selected = c.id === selectedCase?.id;
+                {filteredCases.map((caseItem) => {
+                  const selected = caseItem.id === visibleCase?.id;
+                  const complete = isCaseComplete(caseItem);
                   return (
-                    <li key={c.id}>
+                    <li key={caseItem.id}>
                       <button
                         type="button"
                         className={
                           selected
-                            ? "flex min-h-11 w-full items-center rounded-lg bg-primary-surface px-3 py-2 text-left text-sm font-medium text-primary"
-                            : "flex min-h-11 w-full items-center rounded-lg px-3 py-2 text-left text-sm hover:bg-surface-secondary"
+                            ? "flex min-h-11 w-full items-center justify-between gap-2 rounded-lg bg-primary-surface px-3 py-2 text-left text-sm font-medium text-primary"
+                            : "flex min-h-11 w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-surface-secondary"
                         }
                         aria-current={selected ? "true" : undefined}
-                        onClick={() => selectCase(c.id)}
+                        onClick={() => selectCase(caseItem.id)}
                       >
-                        <span className="truncate">{c.name}</span>
+                        <span className="truncate">{caseItem.name}</span>
+                        <span className="shrink-0 text-xs text-secondary">
+                          {complete ? "Complete" : "Incomplete"}
+                        </span>
                       </button>
                     </li>
                   );
@@ -216,8 +272,13 @@ export function BrowseLayout({ document, onClear }: BrowseLayoutProps) {
 
         {showDetail ? (
           <section className="min-h-0 flex-1 overflow-y-auto" aria-label="Case detail">
-            {selectedCase ? (
-              <CaseDetail caseItem={selectedCase} />
+            {visibleCase && category ? (
+              <CaseDetail
+                caseItem={visibleCase}
+                onToggleAngle={(angleId) =>
+                  onToggleAngle(category.id, visibleCase.id, angleId)
+                }
+              />
             ) : (
               <div className="p-4">
                 <EmptyMessage>
@@ -235,7 +296,13 @@ export function BrowseLayout({ document, onClear }: BrowseLayoutProps) {
   );
 }
 
-function CaseDetail({ caseItem }: { caseItem: Case }) {
+function CaseDetail({
+  caseItem,
+  onToggleAngle,
+}: {
+  caseItem: Case;
+  onToggleAngle: (angleId: string) => void;
+}) {
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 p-4 sm:p-6">
       <div>
@@ -265,7 +332,17 @@ function CaseDetail({ caseItem }: { caseItem: Case }) {
                 key={angle.id}
                 className="rounded-xl border border-default p-3"
               >
-                <div className="mb-2 text-sm font-medium">{angle.id}</div>
+                <Checkbox
+                  className="mb-2"
+                  checked={angle.completed === 1}
+                  onCheckedChange={() => onToggleAngle(angle.id)}
+                  label={
+                    <>
+                      <span className="text-sm font-medium">{angle.id}</span>
+                      <span className="sr-only"> complete</span>
+                    </>
+                  }
+                />
                 {angle.solutions.length === 0 ? (
                   <p className="text-sm text-secondary">No solutions.</p>
                 ) : (
